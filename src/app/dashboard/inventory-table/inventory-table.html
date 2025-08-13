@@ -1,0 +1,91 @@
+<div class="container-todo">
+  <div class="titulo bg-primary">
+    <h2 class="table-titulo  text-light">Lista de Productos</h2>
+  </div>
+
+  <div class="table-container">
+    <div class="header">
+      <button class="btn btn-primary m-3" (click)="agregar()">
+        Agregar Producto
+      </button>
+
+      <div class="filtro d-flex justify-content-between">
+        <div>
+          <label
+            >Mostrando
+            <select>
+              <option>10</option>
+              <option>25</option>
+              <option>50</option>
+            </select>
+            registros</label
+          >
+        </div>
+        <div>
+          <label
+            >Buscar:
+            <input type="text" placeholder="Buscar productos..." />
+          </label>
+        </div>
+      </div>
+
+      <table class="table table-striped mb-0">
+        <thead class="bg-light">
+          <tr>
+            <th>Producto</th>
+            <th>Fecha asignada</th>
+            <th>Fecha entrada</th>
+            <th>Referencia</th>
+            <th>Marca</th>
+            <th>Op</th>
+            <th>Camp</th>
+            <th>Tipo</th>
+            <th>Talla</th>
+            <th>Total</th>
+            <th>Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let item of inventory">
+            <td>{{ item.producto }}</td>
+            <td>{{ item.fechaAsignada }}</td>
+            <td>{{ item.fechaEntrada }}</td>
+            <td>{{ item.referencia }}</td>
+            <td>{{ item.marca }}</td>
+            <td>{{ item.op }}</td>
+            <td>{{ item.camp }}</td>
+            <td>{{ item.tipo }}</td>
+            <td>{{ item.talla }}</td>
+            <td>{{ item.total }}</td>
+            <td>
+              <button class="btn btn-link text-primary" (click)="editar(item)">
+                ✏️ Editar
+              </button>
+              <button class="btn btn-danger btn-sm" (click)="eliminar(item)">
+                Eliminar
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div
+        class="pagination-controls d-flex justify-content-between align-items-center p-2 rounded-bottom bg-light"
+      >
+        <div>Mostrando 1 de 10 | Total 16 registro(s)</div>
+        <div>
+          <button [disabled]="paginaActual === 1" (click)="anterior()">
+            Anterior
+          </button>
+          <button [class.active]="paginaActual === 1" (click)="irAPagina(1)">
+            1
+          </button>
+          <button [class.active]="paginaActual === 2" (click)="irAPagina(2)">
+            2
+          </button>
+          <button (click)="siguiente()">Siguiente</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

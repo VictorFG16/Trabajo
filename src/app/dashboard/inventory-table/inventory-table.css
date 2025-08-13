@@ -1,0 +1,42 @@
+.titulo {
+  text-align: center;
+  width: 95%;
+  position: relative;
+  left: 35px;
+  top: 30px;
+  margin: 20px, auto;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+}
+.table-header {
+  margin: 20px;
+}
+
+.pagination-controls {
+  margin: 20px;
+}
+
+.table-container {
+  background-color: white;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 20px;
+  margin: 20px auto;
+  width: 95%;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th, td {
+  padding: 8px 12px;
+  border: 1px solid #ddd;
+}
+
+th {
+  background-color: #f4f4f4;
+  text-align: left;
+}
