@@ -1,12 +1,15 @@
 import { Component } from '@angular/core';
 import { Sidebar } from '../sidebar/sidebar';
 import { InventoryTable } from './inventory-table/inventory-table';
+import { Navbar } from './navbar/navbar';
+import { CommonModule } from '@angular/common';
+
 
 @Component({
   selector: 'app-dashboard',
-  imports: [Sidebar, InventoryTable],
+  imports: [Sidebar, InventoryTable, Navbar, CommonModule],
   templateUrl: './dashboard.html',
-  styleUrl: './dashboard.css'
+  styleUrls:['./dashboard.css']
 })
 export class Dashboard {
 

@@ -1,0 +1,29 @@
+import { Component, OnInit } from '@angular/core';
+import { AuthService } from '../../services/auth.service';
+
+@Component({
+  selector: 'app-navbar',
+  templateUrl: './navbar.html',
+  styleUrls: ['./navbar.css']
+})
+export class Navbar implements OnInit {
+  userName: string = '';
+
+  constructor(private authService: AuthService) {}
+
+  ngOnInit() {
+    this.authService.getCurrentUser().subscribe({
+      next: (user) => this.userName = user.name,
+      error: () => this.userName = 'Perfil'
+    });
+  }
+
+  getInitials(name: string): string {
+    if (!name) return '';
+    return name
+      .split(' ')
+      .map(word => word[0])
+      .join('')
+      .toUpperCase();
+  }
+}

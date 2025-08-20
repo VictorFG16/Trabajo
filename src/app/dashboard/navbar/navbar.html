@@ -1,0 +1,20 @@
+<nav class="navbar bg-primary" style="height: 80px">
+  <div class="container-fluid">
+    
+    <div class="logo">
+      <a class="logo-icon">C</a>
+      <span class="logo-text ">CARSIL</span>
+    </div>
+    <div class="dropdown ms-auto">
+      <button
+        class="btn btn-primary dropdown-toggle "
+        type="button"
+        data-bs-toggle="dropdown"
+      ><span class="user-icon">{{ getInitials(userName) }}</span>
+<span>{{ userName }}</span></button>
+      <ul class="dropdown-menu text-center">
+        <li><a class="dropdown-item" href="/"> Cerrar sesión</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>

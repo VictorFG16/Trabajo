@@ -13,7 +13,7 @@ import { AuthService } from '../services/auth.service';
   providers: [AuthService],
 })
 export class Login {
-  email: string = '';
+  userName: string = '';
   password: string = '';
   errorMessage: string = '';
 
@@ -21,7 +21,7 @@ export class Login {
   private authService = inject(AuthService);
 
   onLogin() {
-    this.authService.login(this.email, this.password).subscribe({
+    this.authService.login(this.userName, this.password).subscribe({
       next: (response) => {
         // Login exitoso con backend Java
         localStorage.setItem('token', response.token);
