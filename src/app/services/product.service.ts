@@ -27,6 +27,10 @@ export class ProductService {
         return this.apiservice.get('/products');
     }
 
+    getProductById(id: number) {
+        return this.apiservice.get(`/products/${id}`);
+    }
+
     createProduct(product: any) {
         return this.apiservice.post('/products', product);
     }

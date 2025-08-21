@@ -14,8 +14,19 @@ export class AuthService {
     return this.apiService.post('/auth/login', { userName, password });
   }
 
+  // Lee el nombre guardado y consulta el backend
   getCurrentUser() {
-    return this.http.get<User>('http://localhost:8080/api/users/me');
+    const name = localStorage.getItem('userName');
+    if (!name) {
+      // devuelve observable con usuario genrico
+      return this.http.get<User>(`http://localhost:8080/api/users/by-name/anonymous`, { observe: 'body' as const });
+    }
+    return this.http.get<User>(`http://localhost:8080/api/users/by-name/${encodeURIComponent(name)}`);
+  }
+
+  clearSession() {
+    localStorage.removeItem('token');
+    localStorage.removeItem('userName');
   }
 
 }

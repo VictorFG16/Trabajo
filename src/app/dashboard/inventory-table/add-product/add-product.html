@@ -12,7 +12,7 @@
       
       <div class="col-md-6">
         <div class="form-group mb-3">
-          <label for="productName">Producto</label>
+          <label for="productName">Descripcion</label>
           <input
             type="text"
             id="productName"
@@ -203,6 +203,32 @@
         </div>
       </div>
       <div class="col-md-4">
+        <div class="form-group mb-3">
+          <label for="price">Precio</label>
+          <input
+            type="number"
+            id="price"
+            [(ngModel)]="product.price"
+            name="price"
+            class="form-control"
+            [class.is-invalid]="productForm.submitted && !product.price"
+            required
+            step="0.01"
+            min="0"
+            placeholder="0.00"
+          />
+          <div
+            class="invalid-feedback"
+            *ngIf="productForm.submitted && !product.price"
+          >
+            El precio es requerido
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-6 offset-md-3">
         <div class="form-group mb-3">
           <label for="quantity">Total</label>
           <input

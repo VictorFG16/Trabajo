@@ -23,8 +23,9 @@ export class Login {
   onLogin() {
     this.authService.login(this.userName, this.password).subscribe({
       next: (response) => {
-        // Login exitoso con backend Java
-        localStorage.setItem('token', response.token);
+        // Login exitoso
+        localStorage.setItem('token', response.token || '');
+        localStorage.setItem('userName', this.userName);
         this.router.navigate(['/dashboard']);
       },
       error: (error) => {

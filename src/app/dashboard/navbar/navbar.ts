@@ -13,8 +13,8 @@ export class Navbar implements OnInit {
 
   ngOnInit() {
     this.authService.getCurrentUser().subscribe({
-      next: (user) => this.userName = user.name,
-      error: () => this.userName = 'Perfil'
+      next: (user) => this.userName = user?.name || localStorage.getItem('userName') || 'Perfil',
+      error: () => this.userName = localStorage.getItem('userName') || 'Perfil'
     });
   }
 

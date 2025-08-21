@@ -24,6 +24,46 @@
 .eliminar {
   background-color: #FF746C;
 }
+* Estilos para botones deshabilitados */
+.btn-disabled {
+  opacity: 0.5;
+  cursor: not-allowed !important;
+  background-color: #6c757d !important;
+  color: #fff !important;
+}
+
+.btn-disabled:hover {
+  opacity: 0.5;
+  transform: none !important;
+  box-shadow: none !important;
+}
+
+/* Transición suave para los botones */
+.btn {
+  transition: all 0.3s ease;
+}
+
+/* Efecto hover solo para botones habilitados */
+.btn:not(.btn-disabled):hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+}
+
+/* Estilos específicos para botones cuando están deshabilitados */
+.editar:disabled,
+.eliminar:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  background-color: #6c757d !important;
+  color: #fff !important;
+}
+
+.editar:disabled:hover,
+.eliminar:disabled:hover {
+  opacity: 0.5;
+  transform: none;
+  box-shadow: none;
+}
 
 .pagination-controls {
   margin: 20px;
@@ -52,7 +92,10 @@ table {
   margin: 0 auto;
   align-items: center;
   
+  
 }
+
+
 
 th, td {
   padding: 8px 12px;
@@ -62,4 +105,118 @@ th, td {
 th {
   background-color: #f4f4f4;
   text-align: left;
+}
+td {
+  transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease;
+  position: relative;
+  cursor: pointer;
+}
+
+/* Efecto hover individual para cada celda */
+td:hover {
+  background-color: #f0f8ff;
+}
+
+/* Efecto para toda la columna al hacer hover */
+tbody:hover td {
+  transform: translateY(0);
+  box-shadow: none;
+}
+
+/* Cuando se hace hover en cualquier celda, afectar a todas las celdas de la misma columna */
+tbody tr:hover td:nth-child(1),
+tbody:hover tr td:nth-child(1):hover {
+  transform: translateY(-5px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  z-index: 2;
+  background-color: #f0f8ff;
+}
+
+tbody tr:hover td:nth-child(2),
+tbody:hover tr td:nth-child(2):hover {
+  transform: translateY(-5px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  z-index: 2;
+  background-color: #f0f8ff;
+}
+
+tbody tr:hover td:nth-child(3),
+tbody:hover tr td:nth-child(3):hover {
+  transform: translateY(-5px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  z-index: 2;
+  background-color: #f0f8ff;
+}
+
+tbody tr:hover td:nth-child(4),
+tbody:hover tr td:nth-child(4):hover {
+  transform: translateY(-5px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  z-index: 2;
+  background-color: #f0f8ff;
+}
+
+tbody tr:hover td:nth-child(5),
+tbody:hover tr td:nth-child(5):hover {
+  transform: translateY(-5px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  z-index: 2;
+  background-color: #f0f8ff;
+}
+
+tbody tr:hover td:nth-child(6),
+tbody:hover tr td:nth-child(6):hover {
+  transform: translateY(-5px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  z-index: 2;
+  background-color: #f0f8ff;
+}
+
+tbody tr:hover td:nth-child(7),
+tbody:hover tr td:nth-child(7):hover {
+  transform: translateY(-5px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  z-index: 2;
+  background-color: #f0f8ff;
+}
+
+tbody tr:hover td:nth-child(8),
+tbody:hover tr td:nth-child(8):hover {
+  transform: translateY(-5px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  z-index: 2;
+  background-color: #f0f8ff;
+}
+
+tbody tr:hover td:nth-child(9),
+tbody:hover tr td:nth-child(9):hover {
+  transform: translateY(-5px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  z-index: 2;
+  background-color: #f0f8ff;
+}
+
+tbody tr:hover td:nth-child(10),
+tbody:hover tr td:nth-child(10):hover {
+  transform: translateY(-5px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  z-index: 2;
+  background-color: #f0f8ff;
+}
+
+tbody tr:hover td:nth-child(11),
+tbody:hover tr td:nth-child(11):hover {
+  transform: translateY(-5px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  z-index: 2;
+  background-color: #f0f8ff;
+}
+
+/* Estilos para celdas seleccionadas - aplicado a toda la columna */
+td.selected-column {
+  background-color: #e3f2fd !important;
+  border: 2px solid #2196f3 !important;
+  transform: translateY(-3px);
+  box-shadow: 0 2px 6px rgba(33, 150, 243, 0.4);
+  z-index: 3;
 }

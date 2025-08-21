@@ -23,7 +23,10 @@
         </svg>
         Agregar Producto
       </button>
-      <button class="btn editar m-3 fw-bold">
+      <button class="btn editar m-3 fw-bold"
+      [disabled]="!isAnyRowSelected()"
+      [class.disabled]="!isAnyRowSelected()"
+      (click)="editarFila()">
         <svg
           xmlns="http://www.w3.org/2000/svg"
           width="16"
@@ -42,7 +45,11 @@
         </svg>
         Editar
       </button>
-      <button class="btn eliminar m-3 fw-bold">
+      <button class="btn eliminar m-3 fw-bold"
+      [disabled]="!isAnyRowSelected()"
+      [class.disabled]="!isAnyRowSelected()"
+      (click)="eliminarFila()"
+      >
         <svg
           xmlns="http://www.w3.org/2000/svg"
           width="16"
@@ -58,23 +65,29 @@
         Eliminar
       </button>
 
-      <div class="filtro d-flex justify-content-end">
-        <!--<div>
-          <label>Mostrando
-            <select>
-              <option>10</option>
-              <option>25</option>
-              <option>50</option>
+      <div class="filtro d-flex justify-content-between">
+        <div class="ms-4">
+          <label class="form-label">Mostrando
+            <select 
+              class="form-select form-select-sm d-inline-block w-auto ms-2" 
+              [(ngModel)]="itemsPorPagina"
+              (change)="cambiarRegistrosPorPagina(itemsPorPagina)"
+            >
+              <option *ngFor="let opcion of opcionesRegistros" [value]="opcion">
+                {{ opcion }}
+              </option>
             </select>
-            registros</label>
-        </div>-->
-        <div>
-          <label
-            >Buscar:
-            <input type="text" placeholder="Buscar productos..." />
+            registros
           </label>
         </div>
+        <form class="d-flex" role="search">
+        <input class="form-control me-2" type="search" placeholder="Buscar" aria-label="Search"/>
+        <button class="btn btn-outline-success" type="submit">Buscar</button>
+      </form>
       </div>
+
+      
+      
 
       <div *ngIf="loading" class="text-center p-4">
         <div class="spinner-border text-primary" role="status">
@@ -86,6 +99,8 @@
       <div *ngIf="error" class="alert alert-danger" role="alert">
         {{ error }}
       </div>
+
+      
 
       <table *ngIf="!loading && !error" class="table table-striped mb-0">
         <thead class="bg-light">
@@ -100,23 +115,26 @@
             <th>Tipo</th>
             <th>Talla</th>
             <th>Descripcion</th>
+            <th>Precio</th>
             <th>Total</th>
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let item of productosPaginados">
-            <td>{{ item.id }}</td>
-            <td>{{ item.fechaAsignada }}</td>
-            <td>{{ item.fechaEntrada }}</td>
-            <td>{{ item.referencia }}</td>
-            <td>{{ item.marca }}</td>
-            <td>{{ item.op }}</td>
-            <td>{{ item.camp }}</td>
-            <td>{{ item.tipo }}</td>
-            <td>{{ item.talla }}</td>
-            <td>{{ item.producto }}</td>
-            <td>{{ item.total }}</td>
+          <tr *ngFor="let item of productosPaginados; let rowIndex = index">
+            <td [class.selected-column]="isRowSelected(rowIndex)" (click)="selectRow(rowIndex, $event)">{{ item.id }}</td>
+            <td [class.selected-column]="isRowSelected(rowIndex)" (click)="selectRow(rowIndex, $event)">{{ item.fechaAsignada }}</td>
+            <td [class.selected-column]="isRowSelected(rowIndex)" (click)="selectRow(rowIndex, $event)">{{ item.fechaEntrada }}</td>
+            <td [class.selected-column]="isRowSelected(rowIndex)" (click)="selectRow(rowIndex, $event)">{{ item.referencia }}</td>
+            <td [class.selected-column]="isRowSelected(rowIndex)" (click)="selectRow(rowIndex, $event)">{{ item.marca }}</td>
+            <td [class.selected-column]="isRowSelected(rowIndex)" (click)="selectRow(rowIndex, $event)">{{ item.op }}</td>
+            <td [class.selected-column]="isRowSelected(rowIndex)" (click)="selectRow(rowIndex, $event)">{{ item.camp }}</td>
+            <td [class.selected-column]="isRowSelected(rowIndex)" (click)="selectRow(rowIndex, $event)">{{ item.tipo }}</td>
+            <td [class.selected-column]="isRowSelected(rowIndex)" (click)="selectRow(rowIndex, $event)">{{ item.talla }}</td>
+            <td [class.selected-column]="isRowSelected(rowIndex)" (click)="selectRow(rowIndex, $event)">{{ item.producto }}</td>
+            <td [class.selected-column]="isRowSelected(rowIndex)" (click)="selectRow(rowIndex, $event)">{{ item.price }}</td>
+            <td [class.selected-column]="isRowSelected(rowIndex)" (click)="selectRow(rowIndex, $event)">{{ item.total }}</td>
           </tr>
+
           <tr *ngIf="productosPaginados.length === 0">
             <td colspan="11" class="text-center">
               No hay productos registrados
@@ -129,8 +147,8 @@
         class="pagination-controls d-flex justify-content-between align-items-center p-2 rounded-bottom bg-light"
       >
         <div>
-          Mostrando {{ mostrandoDesde }} - {{ mostrandoHasta }} | Total
-          {{ totalRegistros }} registro(s)
+          Mostrando {{ mostrandoDesde }} - {{ mostrandoHasta }} de {{ totalRegistros }} registro(s) 
+          <span class="text-muted">({{ itemsPorPagina }} por página)</span>
         </div>
         <div>
           <button [disabled]="paginaActual === 1" (click)="anterior()">
