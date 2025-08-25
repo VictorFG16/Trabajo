@@ -80,10 +80,20 @@
             registros
           </label>
         </div>
-        <form class="d-flex" role="search">
-        <input class="form-control me-2" type="search" placeholder="Buscar" aria-label="Search"/>
-        <button class="btn btn-outline-success" type="submit">Buscar</button>
-      </form>
+        <form class="d-flex" role="search" (ngSubmit)="searchProducts()">
+          <input 
+            class="form-control me-2" 
+            type="search" 
+            placeholder="Buscar por OP, Referencia, Campaña o Marca" 
+            aria-label="Search"
+            [(ngModel)]="searchTerm"
+            name="searchTerm"
+          />
+          <button class="btn btn-outline-success me-2" type="submit">Buscar</button>
+          <button *ngIf="isSearching" class="btn btn-outline-secondary" type="button" (click)="clearSearch()">
+            Limpiar
+          </button>
+        </form>
       </div>
 
       
@@ -100,6 +110,11 @@
         {{ error }}
       </div>
 
+      <div *ngIf="isSearching && !loading" class="alert alert-info" role="alert">
+        <strong>Modo búsqueda:</strong> Mostrando resultados para "{{ searchTerm }}". 
+        <button class="btn btn-sm btn-outline-secondary ms-2" (click)="clearSearch()">Mostrar todos</button>
+      </div>
+
       
 
       <table *ngIf="!loading && !error" class="table table-striped mb-0">
@@ -114,7 +129,7 @@
             <th>Camp</th>
             <th>Tipo</th>
             <th>Talla</th>
-            <th>Descripcion</th>
+            <th>Descripción</th>
             <th>Precio</th>
             <th>Total</th>
           </tr>
@@ -130,13 +145,13 @@
             <td [class.selected-column]="isRowSelected(rowIndex)" (click)="selectRow(rowIndex, $event)">{{ item.camp }}</td>
             <td [class.selected-column]="isRowSelected(rowIndex)" (click)="selectRow(rowIndex, $event)">{{ item.tipo }}</td>
             <td [class.selected-column]="isRowSelected(rowIndex)" (click)="selectRow(rowIndex, $event)">{{ item.talla }}</td>
-            <td [class.selected-column]="isRowSelected(rowIndex)" (click)="selectRow(rowIndex, $event)">{{ item.producto }}</td>
+            <td [class.selected-column]="isRowSelected(rowIndex)" (click)="selectRow(rowIndex, $event)">{{ item.descripcion }}</td>
             <td [class.selected-column]="isRowSelected(rowIndex)" (click)="selectRow(rowIndex, $event)">{{ item.price }}</td>
             <td [class.selected-column]="isRowSelected(rowIndex)" (click)="selectRow(rowIndex, $event)">{{ item.total }}</td>
           </tr>
 
           <tr *ngIf="productosPaginados.length === 0">
-            <td colspan="11" class="text-center">
+            <td colspan="12" class="text-center">
               No hay productos registrados
             </td>
           </tr>
@@ -162,13 +177,34 @@
             {{ pagina }}
           </button>
           <button
-            [disabled]="paginaActual === totalPaginas"
+            [disabled]="paginaActual >= totalPaginas"
             (click)="siguiente()"
           >
             Siguiente
           </button>
-        </div>
       </div>
     </div>
   </div>
+</div>
+
+<!-- Modal de confirmación para eliminar -->
+<div *ngIf="showDeleteModal" class="modal-backdrop show"></div>
+<div *ngIf="showDeleteModal" class="modal show d-block" tabindex="-1">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header bg-danger text-white">
+        <h5 class="modal-title">Confirmar Eliminación</h5>
+        <button type="button" class="btn-close" (click)="closeDeleteModal()"></button>
+      </div>
+      <div class="modal-body">
+        <p>¿Estás seguro de que deseas eliminar el producto 
+        <p class="text-muted">Esta acción no se puede deshacer.</p>
+      </div>
+      <div class="modal-footer ">
+        <button type="button" class="btn btn-secondary" (click)="closeDeleteModal()">Cancelar</button>
+        <button type="button" class="btn btn-danger" (click)="confirmDelete()">Eliminar</button>
+      </div>
+    </div>
+  </div>
+</div>
 </div>

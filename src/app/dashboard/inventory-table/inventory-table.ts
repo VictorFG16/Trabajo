@@ -5,8 +5,6 @@ import { ProductService } from '../../services/product.service';
 import { DateUtilsService } from '../../services/date-utils.service';
 import { FormsModule } from '@angular/forms';
 
-
-
 @Component({
   selector: 'app-inventory-table',
   imports: [CommonModule, FormsModule],
@@ -22,6 +20,11 @@ export class InventoryTable implements OnInit {
   itemsPorPagina = 10;
   totalRegistros = 0;
   selectedRow: number | null = null;
+  searchTerm = '';
+  isSearching = false;
+  showDeleteModal = false;
+  productToDelete: any = null;
+  errorMessage = '';
 
   constructor(private productService: ProductService, private router: Router, private dateUtils: DateUtilsService) {}
 
@@ -29,15 +32,15 @@ export class InventoryTable implements OnInit {
     this.loadProducts();
     
   }
-
-
   loadProducts() {
     this.loading = true;
+    this.isSearching = false;
+    this.searchTerm = '';
     this.productService.getProducts().subscribe({
       next: (products) => {
         this.inventory = products.map((product: any) => ({
           id: product.id,
-          producto: product.productName,
+          
           fechaAsignada: this.dateUtils.formatDateForDisplay(product.assignedDate),
           fechaEntrada: this.dateUtils.formatDateForDisplay(product.plantEntryDate),
           referencia: product.reference,
@@ -46,6 +49,7 @@ export class InventoryTable implements OnInit {
           camp: product.campaign,
           tipo: product.type,
           talla: product.size,
+          descripcion: product.description,
           price: product.price,
           total: product.quantity
         }));
@@ -60,11 +64,54 @@ export class InventoryTable implements OnInit {
     });
   }
 
+  searchProducts() {
+    if (!this.searchTerm.trim()) {
+      this.loadProducts();
+      return;
+    }
+
+    
+    this.isSearching = true;
+    this.productService.searchProducts(this.searchTerm).subscribe({
+      next: (products) => {
+        this.inventory = products.map((product: any) => ({
+          id: product.id,
+          producto: product.productName,
+          fechaAsignada: this.dateUtils.formatDateForDisplay(product.assignedDate),
+          fechaEntrada: this.dateUtils.formatDateForDisplay(product.plantEntryDate),
+          referencia: product.reference,
+          marca: product.brand,
+          op: product.op,
+          camp: product.campaign,
+          tipo: product.type,
+          talla: product.size,
+          descripcion: product.description,
+          price: product.price,
+          total: product.quantity
+        }));
+        this.totalRegistros = this.inventory.length;
+        this.loading = false;
+        this.paginaActual = 1; // Volver a la primera página después de buscar
+      },
+      error: (error) => {
+        this.error = 'Error al buscar productos';
+        this.loading = false;
+        console.error('Error:', error);
+      }
+    });
+  }
+
+  clearSearch() {
+    this.searchTerm = '';
+    this.loadProducts();
+  }
+
     // Métodos para paginación
     get productosPaginados() {
       const inicio = (this.paginaActual - 1) * this.itemsPorPagina;
       const fin = inicio + this.itemsPorPagina;
-      return this.inventory.slice(inicio, fin);
+      // Asegurar que no excedamos el total de registros
+      return this.inventory.slice(inicio, Math.min(fin, this.totalRegistros));
     }
   
     get totalPaginas() {
@@ -80,12 +127,14 @@ export class InventoryTable implements OnInit {
     }
   
     get mostrandoDesde() {
-      return (this.paginaActual - 1) * this.itemsPorPagina + 1;
+      const inicio = (this.paginaActual - 1) * this.itemsPorPagina;
+      return this.totalRegistros > 0 ? inicio + 1 : 0;
     }
   
     get mostrandoHasta() {
-      const fin = this.paginaActual * this.itemsPorPagina;
-      return fin > this.totalRegistros ? this.totalRegistros : fin;
+      const inicio = (this.paginaActual - 1) * this.itemsPorPagina;
+      const fin = Math.min(inicio + this.itemsPorPagina, this.totalRegistros);
+      return fin;
     }
   
    
@@ -116,31 +165,52 @@ export class InventoryTable implements OnInit {
   // Método para cambiar el número de registros por página
   cambiarRegistrosPorPagina(nuevoValor: number) {
     this.itemsPorPagina = nuevoValor;
-    this.paginaActual = 1; // Volver a la primera página
+    this.paginaActual = 1; // Siempre volver a la primera página al cambiar registros por página
     this.selectedRow = null; // Limpiar selección
-    // Guardar la nueva preferencia
-    
-    // Si la página actual es mayor que el total de páginas, ajustar
-    if (this.paginaActual > this.totalPaginas && this.totalPaginas > 0) {
-      this.paginaActual = this.totalPaginas;
-    }
   }
   // Método para editar la fila seleccionada
   editarFila() {
     if (this.selectedRow !== null) {
-      const filaSeleccionada = this.productosPaginados[this.selectedRow];
+      const filaSeleccionada = this.getFilaSeleccionada();
       this.router.navigate(['/edit-product', filaSeleccionada.id]);
     }
   }
 
-  // Método para eliminar la fila seleccionada
   eliminarFila() {
     if (this.selectedRow !== null) {
       const filaSeleccionada = this.productosPaginados[this.selectedRow];
-      console.log('Eliminando fila:', this.selectedRow, 'Datos:', filaSeleccionada);
-      // Aquí puedes implementar la lógica para eliminar la fila
-      // Por ejemplo, mostrar un modal de confirmación
+      this.productToDelete = filaSeleccionada;
+      this.showDeleteModal = true;
     }
+  }
+
+  confirmDelete() {
+    if (this.productToDelete) {
+      this.productService.deleteProduct(this.productToDelete.id).subscribe({
+        next: () => {
+          this.showMessage('Producto eliminado exitosamente', 'success');
+          this.loadProducts(); // Recargar la lista después de eliminar
+          this.selectedRow = null; // Limpiar selección
+          this.closeDeleteModal();
+        },
+        error: (error) => {
+          this.showMessage('Error al eliminar el producto', 'error');
+          console.error('Error:', error);
+          this.closeDeleteModal();
+        }
+      });
+    }
+  }
+
+  closeDeleteModal() {
+    this.showDeleteModal = false;
+    this.productToDelete = null;
+  }
+
+  // Método para mostrar mensajes
+  showMessage(message: string, type: string) {
+    this.errorMessage = message;
+    // Aquí puedes agregar lógica para mostrar el mensaje en el UI
   }
 
   // Método para obtener los datos de la fila seleccionada
@@ -150,11 +220,6 @@ export class InventoryTable implements OnInit {
     }
     return null;
   }
-  
-
-  
-  
-
   anterior() {
     if (this.paginaActual > 1) {
       this.paginaActual--;
@@ -162,7 +227,9 @@ export class InventoryTable implements OnInit {
   }
 
   siguiente() {
-    this.paginaActual++;
+    if (this.paginaActual < this.totalPaginas) {
+      this.paginaActual++;
+    }
   }
 
   irAPagina(numero: number) {
@@ -183,10 +250,4 @@ export class InventoryTable implements OnInit {
   isRowSelected(rowIndex: number): boolean {
     return this.selectedRow === rowIndex;
   }
-
-  
-
- 
-
-  
 }

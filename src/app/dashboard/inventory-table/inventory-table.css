@@ -24,7 +24,7 @@
 .eliminar {
   background-color: #FF746C;
 }
-* Estilos para botones deshabilitados */
+
 .btn-disabled {
   opacity: 0.5;
   cursor: not-allowed !important;
@@ -206,6 +206,13 @@ tbody:hover tr td:nth-child(10):hover {
 
 tbody tr:hover td:nth-child(11),
 tbody:hover tr td:nth-child(11):hover {
+  transform: translateY(-5px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  z-index: 2;
+  background-color: #f0f8ff;
+}
+tbody tr:hover td:nth-child(12),
+tbody:hover tr td:nth-child(12):hover {
   transform: translateY(-5px);
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
   z-index: 2;
