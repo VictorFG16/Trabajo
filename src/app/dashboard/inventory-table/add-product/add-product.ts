@@ -14,7 +14,7 @@ import { DateUtilsService } from '../../../services/date-utils.service';
 })
 export class AddProduct {
   product = {
-    name: '',
+    description: '',
     price: 0,
     quantity: 0,
     fechaAsignada: '',
@@ -38,7 +38,7 @@ export class AddProduct {
     this.errorMessage = '';
     
     // Validar que todos los campos estén completos
-    if (!this.product.name || !this.product.referencia || !this.product.fechaAsignada || 
+    if (!this.product.referencia || !this.product.fechaAsignada || 
         !this.product.fechaEntrada || !this.product.marca || !this.product.op || 
         !this.product.camp || !this.product.tipo || !this.product.talla || 
         !this.product.quantity || !this.product.price) {
@@ -54,7 +54,7 @@ export class AddProduct {
     }
 
     const productData = {
-      name: this.product.name,
+      description: this.product.description,
       price: this.product.price,
       quantity: this.product.quantity,
       assignedDate: this.dateUtils.formatDateForBackend(this.product.fechaAsignada),

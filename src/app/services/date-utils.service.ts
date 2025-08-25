@@ -37,21 +37,23 @@ export class DateUtilsService {
   /**
    * Formatea una fecha para enviarla al backend
    * Asegura que la fecha se mantenga en el formato correcto
+   * Usa UTC para evitar problemas de zona horaria
    */
   formatDateForBackend(dateString: string): string {
     if (!dateString) return '';
     
     try {
-      const date = new Date(dateString);
+      // Crear fecha usando UTC para evitar problemas de zona horaria
+      const date = new Date(dateString + 'T00:00:00Z');
       
       if (isNaN(date.getTime())) {
         return '';
       }
       
-      // Extraer solo la fecha sin tiempo para evitar problemas de zona horaria
-      const year = date.getFullYear();
-      const month = String(date.getMonth() + 1).padStart(2, '0');
-      const day = String(date.getDate()).padStart(2, '0');
+      // Extraer componentes UTC
+      const year = date.getUTCFullYear();
+      const month = String(date.getUTCMonth() + 1).padStart(2, '0');
+      const day = String(date.getUTCDate()).padStart(2, '0');
       
       return `${year}-${month}-${day}`;
     } catch (error) {

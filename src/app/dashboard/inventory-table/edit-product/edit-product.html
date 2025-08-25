@@ -17,23 +17,16 @@
       
       <div class="col-md-6">
         <div class="form-group mb-3">
-          <label for="productName">Producto</label>
+          <label for="productName">Descripción</label>
           <input
             type="text"
-            id="productName"
-            [(ngModel)]="product.name"
-            name="name"
+            id="description"
+            [(ngModel)]="product.description"
+            name="descripcion"
             class="form-control"
-            [class.is-invalid]="productForm.submitted && !product.name"
-            required
-            [disabled]="loading"
+            
           />
-          <div
-            class="invalid-feedback"
-            *ngIf="productForm.submitted && !product.name"
-          >
-            El producto es requerido
-          </div>
+          
         </div>
       </div>
       <div class="col-md-6">

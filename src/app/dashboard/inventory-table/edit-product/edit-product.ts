@@ -16,7 +16,7 @@ import { Navbar } from '../../navbar/navbar';
 export class EditProduct implements OnInit {
   product = {
     id: 0,
-    name: '',
+    description: '',
     price: 0,
     quantity: 0,
     fechaAsignada: '',
@@ -57,7 +57,7 @@ export class EditProduct implements OnInit {
         // Mapear los datos del producto al formato del formulario
         this.product = {
           id: product.id,
-          name: product.productName || product.name || '',
+          description: product.description || '',
           price: product.price || 0,
           quantity: product.quantity || 0,
           fechaAsignada: this.dateUtils.formatDateForBackend(product.assignedDate),
@@ -83,7 +83,7 @@ export class EditProduct implements OnInit {
     this.errorMessage = '';
     
     // Validar que todos los campos estén completos
-    if (!this.product.name || !this.product.referencia || !this.product.fechaAsignada || 
+    if (!this.product.referencia || !this.product.fechaAsignada || 
         !this.product.fechaEntrada || !this.product.marca || !this.product.op || 
         !this.product.camp || !this.product.tipo || !this.product.talla || 
         !this.product.quantity) {
@@ -98,9 +98,10 @@ export class EditProduct implements OnInit {
       return;
     }
 
+
     const productData = {
       id: this.product.id,
-      name: this.product.name,
+      description: this.product.description,
       price: this.product.price,
       quantity: this.product.quantity,
       assignedDate: this.dateUtils.formatDateForBackend(this.product.fechaAsignada),

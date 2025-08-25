@@ -23,6 +23,10 @@ export interface Product {
 export class ProductService {
     constructor(private apiservice: ApiService) {}
 
+    searchProducts(q: string) {
+        return this.apiservice.get(`/products/search?q=${q}`);
+    }
+
     getProducts() {
         return this.apiservice.get('/products');
     }
