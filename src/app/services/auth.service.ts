@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { ApiService } from "./api.service";
 import { HttpClient } from '@angular/common/http';
 import { User } from '../models/user';
+import { tap } from 'rxjs/operators'; // Importar tap
 
 @Injectable({
   providedIn: 'root'
@@ -11,7 +12,12 @@ export class AuthService {
 
   // Método para iniciar sesión
   login(userName: string, password: string) {
-    return this.apiService.post('/auth/login', { userName, password });
+    return this.apiService.post('/auth/login', { userName, password }).pipe(
+      tap((response: any) => {
+        // Almacenar el token en el almacenamiento local
+        localStorage.setItem('token', response.token);
+      })
+    );
   }
 
   // Lee el nombre guardado y consulta el backend

@@ -75,6 +75,7 @@
   border-radius: 8px;
   padding: 0 0 20px 0; /* Solo padding abajo */
   margin: 20px auto;
+  margin-bottom: 20px;
   width: 95%;
   box-shadow: 0 2px 5px rgba(0,0,0,0.1);
   overflow: hidden;

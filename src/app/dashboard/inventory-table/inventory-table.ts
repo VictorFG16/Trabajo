@@ -28,6 +28,8 @@ export class InventoryTable implements OnInit {
 
   constructor(private productService: ProductService, private router: Router, private dateUtils: DateUtilsService) {}
 
+  
+
   ngOnInit() {
     this.loadProducts();
     
@@ -144,7 +146,9 @@ export class InventoryTable implements OnInit {
     get opcionesRegistros() {
       return [10, 20, 30];
     }
-
+ volverAlHome() {
+    this.router.navigate(['/home']);}
+    
   agregar() {
     this.router.navigate(['/add-product']);
   }

@@ -24,8 +24,13 @@
             [(ngModel)]="product.description"
             name="descripcion"
             class="form-control"
-            
+            [class.is-invalid]="productForm.submitted && !product.description"
+            required
+            [disabled]="loading"
           />
+          <div
+            class="invalid-feedback"
+            *ngIf="productForm.submitted && !product.description"></div>
           
         </div>
       </div>
@@ -208,6 +213,28 @@
             La talla es requerida
           </div>
         </div>
+      </div>
+      <div class="col-md-4">
+        <div class="form-group mb-3">
+          <label for="color">Precio</label>
+          <input
+            type="text"
+            id="color"
+            [(ngModel)]="product.price"
+            name="color"
+            class="form-control"
+            [class.is-invalid]="productForm.submitted && !product.price"
+            required
+            [disabled]="loading"
+          />
+          <div
+            class="invalid-feedback"
+            *ngIf="productForm.submitted && !product.price"
+          >
+            El precio es requerido
+          </div>
+        </div>
+
       </div>
       <div class="col-md-4">
         <div class="form-group mb-3">

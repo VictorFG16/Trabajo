@@ -1,5 +1,4 @@
-
-import { Component, ViewChild, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { ProductService } from '../../../services/product.service';
 import { FormsModule, NgForm } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
@@ -85,7 +84,7 @@ export class EditProduct implements OnInit {
     // Validar que todos los campos estén completos
     if (!this.product.referencia || !this.product.fechaAsignada || 
         !this.product.fechaEntrada || !this.product.marca || !this.product.op || 
-        !this.product.camp || !this.product.tipo || !this.product.talla || 
+        !this.product.camp || !this.product.tipo || !this.product.talla || !this.product.price ||
         !this.product.quantity) {
       this.errorMessage = 'Todos los campos son obligatorios. Por favor complete todos los campos.';
       return;
@@ -116,13 +115,11 @@ export class EditProduct implements OnInit {
 
     this.loading = true;
     this.productService.updateProduct(this.product.id, productData).subscribe({
-      next: (response) => {
-        console.log('Producto actualizado:', response);
+      next: () => {
         this.loading = false;
         this.router.navigate(['/dashboard']);
       },
       error: (error) => {
-        console.error('Error al actualizar producto:', error);
         this.errorMessage = 'Error al actualizar el producto. Por favor intente nuevamente.';
         this.loading = false;
       }

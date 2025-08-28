@@ -15,6 +15,7 @@ export interface Product {
   campaign: string;
   type: string;
   size: string;
+  status?: string;
 }
 
 @Injectable({

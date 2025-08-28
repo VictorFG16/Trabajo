@@ -26,7 +26,7 @@ export class Login {
         // Login exitoso
         localStorage.setItem('token', response.token || '');
         localStorage.setItem('userName', this.userName);
-        this.router.navigate(['/dashboard']);
+        this.router.navigate(['/home']);
       },
       error: (error) => {
         // Error del backend Java

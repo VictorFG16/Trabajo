@@ -7,7 +7,7 @@ import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-dashboard',
-  imports: [Sidebar, InventoryTable, Navbar, CommonModule],
+  imports: [ InventoryTable, Navbar, CommonModule],
   templateUrl: './dashboard.html',
   styleUrls:['./dashboard.css']
 })
