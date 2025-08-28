@@ -1,0 +1,516 @@
+/* Variables CSS */
+:root {
+  --primary-color: #3b82f6;
+  --success-color: #1dd1a1;
+  --gradient-start: #667eea;
+  --gradient-end: #764ba2;
+  --card-hover-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+  --glass-bg: rgba(255, 255, 255, 0.95);
+  --text-primary: #1e293b;
+  --text-secondary: #64748b;
+}
+
+/* Estilos generales */
+:host {
+  font-family: 'Segoe UI', Tahoma,  Verdana, sans-serif;
+  background: linear-gradient(135deg, #c3cef3 0%, #b1d8ec 100%);
+  color: #333;
+  display: block;
+  min-height: 100vh; 
+}
+
+body {
+  background: linear-gradient(135deg, #8db1e5 0%, #c3cfe2 100%);
+  min-height: 100vh;
+  font-family: 'Segoe UI', Tahoma, Verdana, sans-serif;
+}
+
+
+
+
+
+.floating-elements {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.floating-elements::before,
+.floating-elements::after {
+  content: '';
+  position: absolute;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.1);
+  animation: float 6s ease-in-out infinite;
+}
+
+.floating-elements::before {
+  width: 100px;
+  height: 100px;
+  top: 20%;
+  right: 10%;
+  animation-delay: -2s;
+}
+
+.floating-elements::after {
+  width: 60px;
+  height: 60px;
+  bottom: 20%;
+  left: 15%;
+  animation-delay: -4s;
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  50% { transform: translateY(-20px) rotate(180deg); }
+}
+
+/* Dashboard Container */
+.dashboard-container {
+  display: flex;
+  flex-direction: column; 
+  min-height: 100vh;
+}
+
+.main-content {
+  display: flex; 
+  gap: 20px;
+  flex-grow: 1; 
+  margin-top: 20px;
+}
+
+/* Sidebar mejorado */
+
+/* Navegación moderna */
+.nav-modern .nav-item,
+.nav-modern .btn {
+  background: transparent;
+  border: 2px solid transparent;
+  color: var(--text-secondary);
+  font-weight: 600;
+  padding: 1rem 1.5rem;
+  border-radius: 1rem;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  margin-bottom: 0.5rem;
+  position: relative;
+  overflow: hidden;
+  cursor: pointer;
+}
+
+.nav-modern .btn::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+  transition: left 0.5s;
+}
+
+.nav-modern .btn:hover::before {
+  left: 100%;
+}
+
+.nav-modern .btn:hover,
+.nav-modern .nav-item:hover {
+  background: linear-gradient(135deg, var(--primary-color), #2563eb);
+  color: white;
+  transform: translateX(5px);
+  box-shadow: 0 10px 25px rgba(59, 130, 246, 0.3);
+}
+
+.nav-modern .btn.active,
+.nav-modern .nav-item.active {
+  background: linear-gradient(135deg, var(--primary-color), #2563eb);
+  color: white;
+  box-shadow: 0 10px 25px rgba(59, 130, 246, 0.3);
+  border-left: none;
+  padding-left: 1.5rem;
+}
+
+/* Sección del módulo */
+.module-section {
+  flex-grow: 1; 
+  display: flex;
+  flex-direction: column;
+}
+
+.section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  flex-wrap: wrap; 
+  gap: 15px; 
+}
+
+.section-title,
+.section-title-modern {
+  color: var(--primary-color);
+  font-size: 2.5rem; 
+  margin: 0;
+  font-weight: 700;
+}
+
+.section-divider {
+  height: 4px;
+  background: linear-gradient(90deg, var(--primary-color), var(--success-color));
+  border-radius: 2px;
+  margin: 2rem 0 3rem 0;
+}
+
+
+/* Cards mejoradas */
+
+.card,
+.card-modern {
+  background: var(--glass-bg);
+  backdrop-filter: blur(10px);
+  border: none !important;
+  border-radius: 1.5rem;
+  padding: 2.5rem 2rem;
+  text-align: center;
+  box-shadow: 0 8px 25px rgb(0, 0, 0);
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  text-decoration: none;
+  color: inherit;
+  display: flex; 
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-height: 200px;
+  position: relative;
+  overflow: hidden;
+}
+
+.card-modern::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(29, 209, 161, 0.1));
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.card:hover,
+.card-modern:hover {
+  transform: translateY(-15px) scale(1.02);
+  box-shadow: var(--card-hover-shadow);
+}
+
+.card-modern:hover::before {
+  opacity: 1;
+}
+
+
+
+/* Iconos de las cards mejorados */
+.card-icon,
+.card-icon-modern {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 1.5rem;
+  position: relative;
+  overflow: hidden;
+}
+
+.card-icon-modern::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(135deg, var(--success-color), #10b981);
+  border-radius: 50%;
+}
+
+.card-icon,
+.card-icon-modern i {
+  font-size: 2rem;
+  color: white;
+  position: relative;
+  z-index: 2;
+}
+
+/* Títulos y texto de las cards */
+.card-title,
+.card-title-modern {
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin: 0 0 0.8rem 0; 
+}
+
+.card-description,
+.card-text-modern {
+  font-size: 0.95rem;
+  color: var(--text-secondary);
+  line-height: 1.6;
+}
+
+/* Animaciones */
+.pulse-animation {
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0% { box-shadow: 0 0 0 0 rgba(59, 130, 246, 0.4); }
+  70% { box-shadow: 0 0 0 10px rgba(59, 130, 246, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(59, 130, 246, 0); }
+}
+
+/* Estilos existentes personalizados */
+.card-grid a {
+  transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+}
+
+.card-grid a:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+}
+
+.nav-pills .btn {
+  background-color: #f0f2f5;
+  color: #6c757d;
+  border: none;
+  font-weight: bold;
+}
+
+.nav-pills .btn.active {
+  background-color: var(--primary-color);
+  color: #fff;
+}
+
+/* Media Queries - Responsividad */
+
+/* Tabletas y pantallas más pequeñas (máximo 1024px de ancho) */
+@media (max-width: 1024px) {
+  .hero-title {
+    font-size: 2.8rem;
+  }
+  
+  .hero-section {
+    padding: 3rem 0;
+    margin: 1rem 0 2rem 0;
+  }
+
+  .dashboard-container {
+    padding: 15px;
+  }
+
+  .main-content {
+    flex-direction: column; 
+    margin-top: 15px;
+  }
+
+  .sidebar,
+  .sidebar-modern {
+    width: 100%; 
+    margin-bottom: 20px;
+    position: relative;
+    top: auto;
+  }
+
+  .nav-item,
+  .nav-modern .btn {
+    justify-content: center; 
+    border-left: none; 
+    padding-left: 4rem;
+    border-bottom: 2px solid transparent; 
+  }
+
+  .nav-item.active,
+  .nav-modern .btn.active {
+    border-left: none;
+    border-bottom: 2px solid var(--primary-color); 
+    background: linear-gradient(135deg, var(--primary-color), #2563eb);
+    border-radius: 1rem; 
+  }
+
+  .section-title,
+  .section-title-modern {
+    font-size: 2rem;
+  }
+
+  .search-bar {
+    width: 100%; 
+  }
+
+  .card-grid {
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); 
+    gap: 15px;
+  }
+
+  .card,
+  .card-modern {
+    padding: 2rem 1.5rem;
+    min-height: 180px;
+  }
+
+  .card-icon,
+  .card-icon-modern {
+    width: 70px;
+    height: 70px;
+    margin-bottom: 1rem;
+  }
+
+  .card-icon i,
+  .card-icon-modern i {
+    font-size: 1.8rem;
+  }
+
+  .card-title,
+  .card-title-modern {
+    font-size: 1.2rem;
+  }
+  
+}
+
+/* Teléfonos móviles (máximo 768px de ancho) */
+@media (max-width: 768px) {
+  .hero-title {
+    font-size: 2.2rem;
+  }
+  
+  .hero-section {
+    padding: 2rem 0;
+    margin: 0.5rem 0 1.5rem 0;
+  }
+
+  .stats-card {
+    padding: 1.5rem;
+  }
+
+  .stats-number {
+    font-size: 2.5rem;
+  }
+
+  .dashboard-container {
+    padding: 10px;
+  }
+
+  .section-header {
+    flex-direction: column; 
+    align-items: flex-start; 
+  }
+
+  .section-title,
+  .section-title-modern {
+    font-size: 1.8rem;
+    margin-bottom: 10px; 
+  }
+
+  .search-bar {
+    border-radius: 8px; 
+  }
+
+  .search-bar input, .search-bar button {
+    padding: 8px 12px;
+    font-size: 14px;
+  }
+
+  .card-grid {
+    grid-template-columns: 1fr; 
+    gap: 15px;
+  }
+
+  .card,
+  .card-modern {
+    padding: 1.5rem;
+    min-height: 120px;
+    flex-direction: row; 
+    text-align: left;
+    gap: 15px; 
+  }
+
+  .card-icon,
+  .card-icon-modern {
+    width: 60px;
+    height: 60px;
+    margin-bottom: 0;
+    flex-shrink: 0; 
+  }
+
+  .card-icon i,
+  .card-icon-modern i {
+    font-size: 1.5rem;
+  }
+
+  .card-content {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .card-title,
+  .card-title-modern {
+    font-size: 1.1rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .card-description,
+  .card-text-modern {
+    font-size: 0.9rem;
+  }
+}
+
+/* Teléfonos muy pequeños (máximo 480px de ancho) */
+@media (max-width: 480px) {
+  .hero-title {
+    font-size: 1.8rem;
+  }
+
+  .hero-subtitle {
+    font-size: 1rem;
+  }
+
+  .dashboard-container {
+    padding: 8px;
+  }
+
+  .sidebar .nav-item,
+  .sidebar-modern .nav-modern .btn {
+    font-size: 14px;
+    padding: 12px;
+  }
+
+  .section-title,
+  .section-title-modern {
+    font-size: 1.5rem;
+  }
+
+  .search-bar input {
+    font-size: 13px;
+  }
+
+  .card-icon,
+  .card-icon-modern {
+    width: 50px;
+    height: 50px;
+  }
+
+  .card-icon i,
+  .card-icon-modern i {
+    font-size: 1.3rem;
+  }
+
+  .card-title,
+  .card-title-modern {
+    font-size: 1rem;
+  }
+
+  .card-description,
+  .card-text-modern {
+    font-size: 0.85rem;
+  }
+}
