@@ -4,15 +4,10 @@ import { appConfig } from './app/app.config';
 import { App } from './app/app';
 
 bootstrapApplication(App, {
-
   providers: [
-
     ...appConfig.providers,
-
-    provideCharts(withDefaultRegisterables())
-
+ provideCharts(withDefaultRegisterables())
   ]
-
 }).catch((err) => console.error(err))
 
 ;
