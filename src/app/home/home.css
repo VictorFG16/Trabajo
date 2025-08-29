@@ -13,7 +13,7 @@
 /* Estilos generales */
 :host {
   font-family: 'Segoe UI', Tahoma,  Verdana, sans-serif;
-  background: linear-gradient(135deg, #c3cef3 0%, #b1d8ec 100%);
+  background: #f0f2f5;
   color: #333;
   display: block;
   min-height: 100vh; 
@@ -24,10 +24,19 @@ body {
   min-height: 100vh;
   font-family: 'Segoe UI', Tahoma, Verdana, sans-serif;
 }
-
-
-
-
+.todo{
+  animation: fadeIn 0.5s ease-in-out;
+}
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
 
 .floating-elements {
   position: absolute;
@@ -72,6 +81,7 @@ body {
   display: flex;
   flex-direction: column; 
   min-height: 100vh;
+  
 }
 
 .main-content {
@@ -81,7 +91,7 @@ body {
   margin-top: 20px;
 }
 
-/* Sidebar mejorado */
+
 
 /* Navegación moderna */
 .nav-modern .nav-item,
@@ -142,7 +152,7 @@ body {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 20px;
+  
   flex-wrap: wrap; 
   gap: 15px; 
 }
@@ -167,13 +177,13 @@ body {
 
 .card,
 .card-modern {
-  background: var(--glass-bg);
+ 
   backdrop-filter: blur(10px);
   border: none !important;
   border-radius: 1.5rem;
   padding: 2.5rem 2rem;
   text-align: center;
-  box-shadow: 0 8px 25px rgb(0, 0, 0);
+  box-shadow:  8px 25px rgb(0, 0, 0);
   transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
   text-decoration: none;
   color: inherit;
@@ -193,7 +203,7 @@ body {
   left: 0;
   right: 0;
   bottom: 0;
-  background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(29, 209, 161, 0.1));
+  background-color: w;
   opacity: 0;
   transition: opacity 0.3s ease;
 }
@@ -305,9 +315,7 @@ body {
     margin: 1rem 0 2rem 0;
   }
 
-  .dashboard-container {
-    padding: 15px;
-  }
+ 
 
   .main-content {
     flex-direction: column; 
@@ -396,9 +404,6 @@ body {
     font-size: 2.5rem;
   }
 
-  .dashboard-container {
-    padding: 10px;
-  }
 
   .section-header {
     flex-direction: column; 

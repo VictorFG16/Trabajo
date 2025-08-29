@@ -4,7 +4,7 @@ import { Injectable } from "@angular/core";
 
 export interface Product {
   id: number;
-  productName: string;
+  description: string;
   price: number;
   quantity: number;
   assignedDate: string;

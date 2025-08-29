@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import { Sidebar } from '../sidebar/sidebar';
 import { InventoryTable } from './inventory-table/inventory-table';
 import { Navbar } from './navbar/navbar';
 import { CommonModule } from '@angular/common';

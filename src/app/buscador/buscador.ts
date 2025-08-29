@@ -53,7 +53,7 @@ export class Buscador implements OnInit, OnDestroy {
         // Agregar campo de estado si no existe
         this.searchResults = products.map(product => ({
           ...product,
-          status: this.getProductStatus(product)
+         
         }));
       }
     } catch (error) {
@@ -66,15 +66,7 @@ export class Buscador implements OnInit, OnDestroy {
   /**
    * Determina el estado del producto basado en sus datos
    */
-  private getProductStatus(product: Product): string {
-    // Lógica simple para determinar el estado
-    // Puedes ajustar esto según tus necesidades
-    const assignedDate = new Date(product.assignedDate);
-    const now = new Date();
-    const daysDiff = Math.floor((now.getTime() - assignedDate.getTime()) / (1000 * 60 * 60 * 24));
-    
-    return daysDiff <= 7 ? 'asignado' : 'sin_asignar';
-  }
+  
 
   /**
    * Busca productos por número de OP
@@ -99,7 +91,7 @@ export class Buscador implements OnInit, OnDestroy {
         .filter((product: Product) => this.matchesSearchTerm(product, this.searchTerm))
         .map((product: Product) => ({
           ...product,
-          status: this.getProductStatus(product)
+          
         }));
 
       // Si hay resultados, seleccionar el primero automáticamente
@@ -147,14 +139,10 @@ export class Buscador implements OnInit, OnDestroy {
    */
   clearSearch(): void {
     this.searchTerm = '';
-    this.searchResults = [];
-    this.selectedProduct = null;
-    this.hasSearched = false;
+    ;
   }
 
-  /**
-   * Track function para ngFor
-   */
+ 
   trackByProduct(index: number, product: Product): number {
     return product.id;
   }

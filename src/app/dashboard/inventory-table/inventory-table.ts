@@ -59,9 +59,8 @@ export class InventoryTable implements OnInit {
         this.loading = false;
       },
       error: (error) => {
-        this.error = 'Error al cargar los productos';
+        this.error = 'Error al cargar los productos' ,error;
         this.loading = false;
-        console.error('Error:', error);
       }
     });
   }
@@ -78,7 +77,6 @@ export class InventoryTable implements OnInit {
       next: (products) => {
         this.inventory = products.map((product: any) => ({
           id: product.id,
-          producto: product.productName,
           fechaAsignada: this.dateUtils.formatDateForDisplay(product.assignedDate),
           fechaEntrada: this.dateUtils.formatDateForDisplay(product.plantEntryDate),
           referencia: product.reference,
@@ -214,7 +212,7 @@ export class InventoryTable implements OnInit {
   // Método para mostrar mensajes
   showMessage(message: string, type: string) {
     this.errorMessage = message;
-    // Aquí puedes agregar lógica para mostrar el mensaje en el UI
+    
   }
 
   // Método para obtener los datos de la fila seleccionada
