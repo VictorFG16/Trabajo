@@ -66,6 +66,10 @@ export class DashboardDeModulos implements OnInit {
   volverAlHome() {
     this.router.navigate(['/home']);
   }
+
+  agregarModulo(){
+    this.router.navigate (['/agregar-modulo'])
+  }
   
   editarModulo() { 
     if (this.selectedModule !== null) {
