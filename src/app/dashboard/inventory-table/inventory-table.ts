@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { ProductService } from '../../services/product.service';
 import { DateUtilsService } from '../../services/date-utils.service';
 import { FormsModule } from '@angular/forms';
+import { ModuleService } from '../../services/module.service';
 
 @Component({
   selector: 'app-inventory-table',
@@ -26,7 +27,7 @@ export class InventoryTable implements OnInit {
   productToDelete: any = null;
   errorMessage = '';
 
-  constructor(private productService: ProductService, private router: Router, private dateUtils: DateUtilsService) {}
+  constructor(private productService: ProductService, private router: Router, private dateUtils: DateUtilsService, moduleService: ModuleService) {}
 
   
 
@@ -50,7 +51,7 @@ export class InventoryTable implements OnInit {
           op: product.op,
           camp: product.campaign,
           tipo: product.type,
-          talla: product.size,
+          modulo: product.module,
           descripcion: product.description,
           price: product.price,
           total: product.quantity
@@ -84,7 +85,7 @@ export class InventoryTable implements OnInit {
           op: product.op,
           camp: product.campaign,
           tipo: product.type,
-          talla: product.size,
+          modulo: product.module,
           descripcion: product.description,
           price: product.price,
           total: product.quantity

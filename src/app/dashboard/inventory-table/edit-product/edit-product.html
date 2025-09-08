@@ -1,7 +1,7 @@
 <app-navbar></app-navbar>
 <div class="container mt-4">
   <div class="titulo bg-primary text-white p-3 mb-4 " >
-    <h2>Editar Producto</h2>
+    <h2>Editar Orden de Producción</h2>
   </div>
 
   <div class="alert alert-info" *ngIf="loading">
@@ -193,19 +193,14 @@
       <div class="col-md-4">
         <div class="form-group mb-3">
           <label for="talla">Talla</label>
-          <input
-            type="text"
-            id="talla"
-            [(ngModel)]="product.talla"
-            name="talla"
-            class="form-control"
+          <button
+            type="button"
+            class="btn btn-outline-secondary form-control"
+            (click)="openSizeModal()"
             [class.is-invalid]="productForm.submitted && (!product.talla)"
-            required
-            maxlength="4"
-            pattern="[A-Z]{4}"
-            placeholder=""
-            [disabled]="loading"
-          />
+          >
+            {{ product.talla ? 'Tallas seleccionadas (' + getSelectedSizesCount() + ')' : 'Seleccionar tallas' }}
+          </button>
           <div
             class="invalid-feedback"
             *ngIf="productForm.submitted && !product.talla"
@@ -247,6 +242,7 @@
             class="form-control"
             [class.is-invalid]="productForm.submitted && !product.quantity"
             required
+            readonly
             [disabled]="loading"
           />
           <div
@@ -259,11 +255,39 @@
       </div>
     </div>
 
+    <div class="row">
+      <div class="col-md-6">
+        <div class="form-group mb-3">
+          <label for="module">Módulo</label>
+          <select
+            id="module"
+            [(ngModel)]="product.module"
+            name="module"
+            class="form-control"
+            [class.is-invalid]="productForm.submitted && !product.module"
+            required
+            [disabled]="loading"
+          >
+            <option [ngValue]="null">-- Seleccionar módulo --</option>
+            <option *ngFor="let module of modules" [ngValue]="module">
+              {{ module.name }}
+            </option>
+          </select>
+          <div
+            class="invalid-feedback"
+            *ngIf="productForm.submitted && !product.module"
+          >
+            El módulo es requerido
+          </div>
+        </div>
+      </div>
+    </div>
+
     <div class="buttons d-flex gap-2">
       <button type="submit" class="btn btn-primary" [disabled]="loading">
         <i class="fas fa-save" *ngIf="!loading"></i>
         <i class="fas fa-spinner fa-spin" *ngIf="loading"></i>
-        {{ loading ? 'Actualizando...' : 'Actualizar Producto' }}
+        {{ loading ? 'Actualizando...' : 'Actualizar OP' }}
       </button>
       <button
         type="button"
@@ -275,4 +299,57 @@
       </button>
     </div>
   </form>
+</div>
+
+<!-- Modal para seleccionar tallas -->
+<div class="modal" tabindex="-1" [ngClass]="{'show d-block': showSizeModal}" style="background-color: rgba(0,0,0,0.5);">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Seleccionar Tallas y Cantidades</h5>
+        <button type="button" class="btn-close" aria-label="Close" (click)="closeSizeModal()"></button>
+      </div>
+      <div class="modal-body">
+        <!-- Navegación entre secciones -->
+        <div class="d-flex justify-content-center mb-3">
+          <button
+            type="button"
+            class="btn btn-outline-primary me-2"
+            [class.active]="activeSizeSection === 'kids'"
+            (click)="showKidsSizes()">
+            Tallas Niños
+          </button>
+          <button
+            type="button"
+            class="btn btn-outline-primary"
+            [class.active]="activeSizeSection === 'adult'"
+            (click)="showAdultSizes()">
+            Tallas Adultos
+          </button>
+        </div>
+
+        <!-- Sección de tallas de niños -->
+        <div *ngIf="activeSizeSection === 'kids'">
+          <h6 class="text-center mb-3">Tallas de Niños</h6>
+          <div *ngFor="let size of kidsSizes" class="mb-2 d-flex align-items-center">
+            <label class="me-2" style="width: 50px;">{{ size.name }}</label>
+            <input type="number" min="0" [(ngModel)]="size.quantity" class="form-control" style="width: 100px;" />
+          </div>
+        </div>
+
+        <!-- Sección de tallas de adultos -->
+        <div *ngIf="activeSizeSection === 'adult'">
+          <h6 class="text-center mb-3">Tallas de Adultos</h6>
+          <div *ngFor="let size of adultSizes" class="mb-2 d-flex align-items-center">
+            <label class="me-2" style="width: 50px;">{{ size.name }}</label>
+            <input type="number" min="0" [(ngModel)]="size.quantity" class="form-control" style="width: 100px;" />
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" (click)="closeSizeModal()">Cancelar</button>
+        <button type="button" class="btn btn-primary" (click)="saveSizes()">Guardar</button>
+      </div>
+    </div>
+  </div>
 </div>

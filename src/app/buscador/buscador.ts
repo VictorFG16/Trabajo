@@ -2,7 +2,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
-import { Subject, takeUntil } from 'rxjs';
+import { Subject, firstValueFrom } from 'rxjs';
 import { ProductService, Product } from '../services/product.service';
 import { Navbar } from "../dashboard/navbar/navbar";
 
@@ -11,26 +11,25 @@ import { Navbar } from "../dashboard/navbar/navbar";
   standalone: true,
   imports: [CommonModule, FormsModule, Navbar],
   templateUrl: './buscador.html',
-  styleUrl: './buscador.css'
+  styleUrls: ['./buscador.css']
 })
 export class Buscador implements OnInit, OnDestroy {
-  // Propiedades de búsqueda
   searchTerm: string = '';
-  
-  // Propiedades de resultados
+
   searchResults: Product[] = [];
   selectedProduct: Product | null = null;
   isLoading: boolean = false;
   hasSearched: boolean = false;
+
+  sizeSummary: { size: string; quantity: number }[] = [];
+  totalQuantity: number = 0;
 
   private destroy$ = new Subject<void>();
 
   constructor(
     private productService: ProductService,
     private router: Router
-  ) {
-    // No se necesita configuración de debounce para búsqueda manual
-  }
+  ) {}
 
   ngOnInit(): void {
     this.loadInitialData();
@@ -42,19 +41,15 @@ export class Buscador implements OnInit, OnDestroy {
   }
 
   /**
-   * Carga los datos iniciales
+   * Carga los últimos 5 productos
    */
   async loadInitialData(): Promise<void> {
     try {
       this.isLoading = true;
-      const products = await this.productService.getProducts().toPromise();
-      
+      const products = await firstValueFrom(this.productService.getProducts());
+
       if (products && Array.isArray(products)) {
-        // Agregar campo de estado si no existe
-        this.searchResults = products.map(product => ({
-          ...product,
-         
-        }));
+        this.searchResults = products.slice(-5); // últimos 5
       }
     } catch (error) {
       console.error('Error al cargar datos iniciales:', error);
@@ -64,18 +59,11 @@ export class Buscador implements OnInit, OnDestroy {
   }
 
   /**
-   * Determina el estado del producto basado en sus datos
-   */
-  
-
-  /**
-   * Busca productos por número de OP
+   * Búsqueda manual por número de OP (últimos 5 resultados)
    */
   async searchByOP(): Promise<void> {
     if (!this.searchTerm.trim()) {
-      this.searchResults = [];
-      this.selectedProduct = null;
-      this.hasSearched = false;
+      this.clearSearch();
       return;
     }
 
@@ -83,22 +71,18 @@ export class Buscador implements OnInit, OnDestroy {
       this.isLoading = true;
       this.hasSearched = true;
 
-      // Obtener todos los productos
-      const allProducts = await this.productService.getProducts().toPromise() || [];
-      
-      // Filtrar por término de búsqueda
+      const allProducts = await firstValueFrom(this.productService.getProducts()) || [];
+
       this.searchResults = allProducts
         .filter((product: Product) => this.matchesSearchTerm(product, this.searchTerm))
-        .map((product: Product) => ({
-          ...product,
-          
-        }));
+        .slice(-5); // últimos 5 coincidentes
 
-      // Si hay resultados, seleccionar el primero automáticamente
       if (this.searchResults.length > 0) {
         this.selectProduct(this.searchResults[0]);
       } else {
         this.selectedProduct = null;
+        this.sizeSummary = [];
+        this.totalQuantity = 0;
       }
 
     } catch (error) {
@@ -111,42 +95,79 @@ export class Buscador implements OnInit, OnDestroy {
   }
 
   /**
-   * Verifica si un producto coincide con el término de búsqueda (solo por número de OP)
+   * Verifica si el producto coincide con el término buscado (solo por número de OP)
    */
   private matchesSearchTerm(product: Product, term: string): boolean {
     const searchTerm = term.toLowerCase().trim();
-    // Solo buscar por número de OP
-    return product.op?.toLowerCase().includes(searchTerm) || false;
+    return product.op?.toLowerCase().includes(searchTerm) ?? false;
   }
 
   /**
-   * Selecciona un producto para mostrar sus detalles
+   * Selecciona un producto y calcula el resumen de tallas
    */
   selectProduct(product: Product): void {
     this.selectedProduct = product;
+    this.calculateSizeSummary();
   }
 
   /**
-   * Maneja el input de búsqueda con validación
+   * Calcula resumen de tallas y cantidad total del producto seleccionado
+   */
+  private calculateSizeSummary(): void {
+    if (!this.selectedProduct || !this.selectedProduct.sizeQuantities) {
+      this.sizeSummary = [];
+      this.totalQuantity = 0;
+      return;
+    }
+
+    const sizeQuantities: Record<string, number> = this.selectedProduct.sizeQuantities;
+
+    this.sizeSummary = Object.entries(sizeQuantities)
+      .map(([size, quantity]) => ({
+        size,
+        quantity
+      }))
+      .sort((a, b) => {
+        const aNum = parseFloat(a.size);
+        const bNum = parseFloat(b.size);
+        return isNaN(aNum) || isNaN(bNum)
+          ? a.size.localeCompare(b.size)
+          : aNum - bNum;
+      });
+
+    this.totalQuantity = this.sizeSummary.reduce((total, item) => total + item.quantity, 0);
+  }
+
+  /**
+   * Limpia caracteres no numéricos del input
    */
   onSearchInput(): void {
-    // Solo filtrar números, sin búsqueda automática
     this.searchTerm = this.searchTerm.replace(/[^0-9]/g, '');
   }
 
   /**
-   * Limpia la búsqueda
+   * Limpia todos los resultados y el estado
    */
   clearSearch(): void {
     this.searchTerm = '';
-    ;
+    this.searchResults = [];
+    this.selectedProduct = null;
+    this.sizeSummary = [];
+    this.totalQuantity = 0;
+    this.hasSearched = false;
   }
 
- 
+  /**
+   * Necesario para optimizar ngFor
+   */
   trackByProduct(index: number, product: Product): number {
     return product.id;
   }
-  volverAlHome() {
+
+  /**
+   * Navega al home
+   */
+  volverAlHome(): void {
     this.router.navigate(['/home']);
   }
 }

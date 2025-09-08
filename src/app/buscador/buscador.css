@@ -80,6 +80,24 @@
   padding: 0 20px;
 }
 
+/* Información de resultados */
+.results-info {
+  padding: 10px 0;
+  text-align: center;
+  border-bottom: 1px solid #e0e0e0;
+  margin-bottom: 10px;
+}
+
+.results-count {
+  font-size: 0.85rem;
+  color: #6c757d;
+  font-weight: 500;
+  background: #f8f9fa;
+  padding: 5px 12px;
+  border-radius: 15px;
+  border: 1px solid #dee2e6;
+}
+
 .results-table {
   width: 100%;
   border-collapse: collapse;
@@ -314,6 +332,114 @@
   font-size: 20px;
 }
 
+/* Tabla de resumen de tallas */
+.size-summary-table {
+  margin-top: 30px;
+  padding: 25px;
+  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+  border-radius: 12px;
+  border: 2px solid #dee2e6;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+}
+
+.summary-title {
+  margin: 0 0 20px 0;
+  color: #2c3e50;
+  font-size: 1.2rem;
+  font-weight: 700;
+  text-align: center;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  padding: 10px 0;
+  border-bottom: 3px solid #1677ff;
+  position: relative;
+}
+
+.summary-title::after {
+  content: '';
+  position: absolute;
+  bottom: -3px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 50px;
+  height: 3px;
+  background: #0d5bb8;
+}
+
+.summary-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  font-size: 0.9rem;
+  background: white;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+  border: 2px solid #1677ff;
+}
+
+.summary-table th {
+  background: #1677ff;
+  color: white;
+  padding: 15px 20px;
+  text-align: center;
+  font-weight: 600;
+  font-size: 0.9rem;
+  border-right: 2px solid #0d5bb8;
+  border-bottom: 2px solid #0d5bb8;
+}
+
+.summary-table th:last-child {
+  border-right: none;
+}
+
+.summary-table td {
+  padding: 15px 20px;
+  text-align: center;
+  border-right: 2px solid #e0e0e0;
+  border-bottom: 2px solid #e0e0e0;
+  color: #2c3e50;
+  font-weight: 500;
+}
+
+.summary-table td:last-child {
+  border-right: none;
+}
+
+.summary-table tbody tr:nth-child(even) {
+  background: #f8f9fa;
+}
+
+.summary-table tbody tr:nth-child(odd) {
+  background: white;
+}
+
+.summary-table tbody tr:hover {
+  background: #e3f2fd;
+  transform: scale(1.01);
+  transition: all 0.2s ease;
+}
+
+.summary-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.summary-table tfoot {
+  background: #e9ecef;
+}
+
+.summary-table .total-row td {
+  font-weight: 700;
+  color: #2c3e50;
+  background: #e9ecef;
+  border-top: 3px solid #1677ff;
+  border-bottom: none;
+  padding: 18px 20px;
+  font-size: 1rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
 .sub-table {
   width: 100%;
   border-collapse: collapse;
@@ -421,6 +547,22 @@
   .results-table td {
     padding: 8px 4px;
   }
+  
+  .size-summary-table {
+    margin-top: 20px;
+    padding: 15px;
+  }
+  
+  .summary-title {
+    font-size: 1rem;
+    margin-bottom: 15px;
+  }
+  
+  .summary-table th,
+  .summary-table td {
+    padding: 10px 12px;
+    font-size: 0.8rem;
+  }
 }
 
 @media (max-width: 480px) {
@@ -456,6 +598,28 @@
   
   .results-table-container {
     padding: 0 15px;
+  }
+  
+  .size-summary-table {
+    margin-top: 15px;
+    padding: 12px;
+  }
+  
+  .summary-title {
+    font-size: 0.9rem;
+    margin-bottom: 12px;
+    letter-spacing: 0.5px;
+  }
+  
+  .summary-table th,
+  .summary-table td {
+    padding: 8px 10px;
+    font-size: 0.75rem;
+  }
+  
+  .summary-table .total-row td {
+    padding: 12px 10px;
+    font-size: 0.8rem;
   }
 }
 

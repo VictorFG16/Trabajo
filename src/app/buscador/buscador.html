@@ -39,6 +39,9 @@
    
 
     <div class="results-table-container" *ngIf="searchResults.length > 0">
+      <div class="results-info">
+        <span class="results-count">Mostrando los últimos {{ searchResults.length }} registros de OP</span>
+      </div>
       <table class="results-table">
         <thead>
           <tr>
@@ -130,10 +133,8 @@
           <span class="attribute-label">Tipo:</span>
           <span class="attribute-value">{{ selectedProduct.type }}</span>
         </div>
-        <div class="attribute-row">
-          <span class="attribute-label">Talla:</span>
-          <span class="attribute-value">{{ selectedProduct.size }}</span>
-        </div>
+        
+  
         <div class="attribute-row">
           <span class="attribute-label">Fecha Asignada:</span>
           <span class="attribute-value">{{ selectedProduct.assignedDate | date:'dd-MM-yyyy' }}</span>
@@ -152,7 +153,7 @@
         </div>
         <div class="attribute-row">
           <span class="attribute-label">Total:</span>
-          <span class="attribute-value total-price">${{ (selectedProduct.price * selectedProduct.quantity) | number:'1.0-0' }}</span>
+          <span class="attribute-value total-price">COP {{ (selectedProduct.price * selectedProduct.quantity) | number:'1.0-0' }}</span>
         </div>
         <div class="attribute-row">
           <span class="attribute-label">Descripción:</span>
@@ -163,6 +164,31 @@
       <!-- Tabla de sub-detalles -->
       <div class="sub-details-table mx-auto p-2 text-start">
         <h5>Carsil</h5>
+      </div>
+
+      <!-- Tabla de resumen de tallas -->
+      <div class="size-summary-table" *ngIf="sizeSummary.length > 0">
+        <h5 class="summary-title">Resumen de Tallas - OP {{ selectedProduct.op }}</h5>
+        <table class="summary-table">
+          <thead>
+            <tr>
+              <th>Talla</th>
+              <th>Cantidad</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let item of sizeSummary">
+              <td>{{ item.size }}</td>
+              <td>{{ item.quantity }}</td>
+            </tr>
+          </tbody>
+          <tfoot>
+            <tr class="total-row">
+              <td><strong>Total</strong></td>
+              <td><strong>{{ totalQuantity }}</strong></td>
+            </tr>
+          </tfoot>
+        </table>
       </div>
     </div>
   </div>
