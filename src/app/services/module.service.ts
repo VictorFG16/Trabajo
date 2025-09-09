@@ -21,6 +21,9 @@ export class ModuleService {
   getModuleById(id: number) {
     return this.apiService.get(`/modules/${id}`);
   }
+  createModule(module: any) {
+    return this.apiService.post('/modules', module);
+  }
 
   updateModule(id: number, module: any) {
     return this.apiService.put(`/modules/${id}`, module);

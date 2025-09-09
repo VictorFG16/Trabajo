@@ -15,7 +15,7 @@ export interface Product {
   campaign: string;
   type: string;
   size: string;
-  module: string;
+  module: any; // Cambiado a any para manejar objeto o string
   status?: string;
   sizeQuantities?: Record<string, number>;
 }

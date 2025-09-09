@@ -5,6 +5,8 @@ import { Router } from '@angular/router';
 import { Subject, firstValueFrom } from 'rxjs';
 import { ProductService, Product } from '../services/product.service';
 import { Navbar } from "../dashboard/navbar/navbar";
+import { generateProductPdf } from './pdf-export-helper';
+import { ModuleService } from '../services/module.service';
 
 @Component({
   selector: 'app-buscador',
@@ -28,7 +30,8 @@ export class Buscador implements OnInit, OnDestroy {
 
   constructor(
     private productService: ProductService,
-    private router: Router
+    private router: Router,
+    private moduleService: ModuleService
   ) {}
 
   ngOnInit(): void {
@@ -169,5 +172,14 @@ export class Buscador implements OnInit, OnDestroy {
    */
   volverAlHome(): void {
     this.router.navigate(['/home']);
+  }
+
+  /**
+   * Exporta los datos del producto seleccionado a PDF
+   */
+  exportToPdf(): void {
+    if (this.selectedProduct) {
+      generateProductPdf(this.selectedProduct, this.sizeSummary, this.totalQuantity);
+    }
   }
 }

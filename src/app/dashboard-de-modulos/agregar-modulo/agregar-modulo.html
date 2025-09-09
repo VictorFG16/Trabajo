@@ -9,25 +9,20 @@
         {{ errorMessage }}
     </div>
     
-    <!-- Mostrar loading si está cargando -->
-    <div *ngIf="loading && !module.id" class="text-center">
-        <div class="spinner-border" role="status">
-            <span class="sr-only">Cargando...</span>
-        </div>
-        <p>Cargando datos del módulo...</p>
-    </div>
+
     
-    <form (ngSubmit)="onSubmit(moduloForm)" #moduloForm="" novalidate>
+    <form (ngSubmit)="onSubmit(moduleForm)" #moduleForm="ngForm" novalidate>
        <div class="col-md-70">
             <div class="form-group mb-3">
                 <label for="Nombre">Nombre</label>
-                <input 
-                    type="text" 
-                    id="name" 
-                    name="name" 
+                <input
+                    type="text"
+                    id="name"
+                    name="name"
                     class="form-control"
+                    [(ngModel)]="module.name"
                     required
-                /> 
+                />
             </div>
         </div>
     <div class="row">
@@ -39,6 +34,7 @@
                     id="description" 
                     name="description" 
                     class="form-control"
+                    [(ngModel)]="module.description"
                     required
                 /> 
             </div>
@@ -53,7 +49,7 @@
                     id="remainingTime" 
                     name="remainingTime"  
                     class="form-control"
-                    min="1"
+                    [(ngModel)]="module.remainingTime"
                     required
                 />
             </div>

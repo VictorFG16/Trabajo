@@ -7,10 +7,7 @@ export class DateUtilsService {
 
   constructor() { }
 
-  /**
-   * Formatea una fecha para mostrarla en la interfaz de usuario
-   * Evita problemas de zona horaria usando UTC
-   */
+  
   formatDateForDisplay(dateString: string): string {
     if (!dateString) return '';
     
