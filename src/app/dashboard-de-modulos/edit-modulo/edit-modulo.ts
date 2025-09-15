@@ -15,7 +15,7 @@ export class EditModulo implements OnInit {
     id: 0,
     name: '',
     description: '',
-    remainingTime: 0,
+    loadDays: 0,
   };
   errorMessage = '';
   loading = false;
@@ -39,7 +39,7 @@ export class EditModulo implements OnInit {
           id: module.id,
           name: module.name || '',
           description: module.description || '',
-          remainingTime: module.remainingTime || 0,
+          loadDays: module.loadDays || 0,
         };
         this.loading = false;
       },
@@ -55,7 +55,7 @@ export class EditModulo implements OnInit {
     this.errorMessage = '';
     
     // Validar que todos los campos estén completos
-    if (!this.module.description || !this.module.remainingTime || this.module.remainingTime <= 0) {
+    if (!this.module.description || !this.module.loadDays || this.module.loadDays <= 0) {
       this.errorMessage = 'Todos los campos son obligatorios. Por favor complete todos los campos.';
       return;
     }
@@ -64,7 +64,7 @@ export class EditModulo implements OnInit {
       id: this.module.id,
       name:this.module.name,
       description: this.module.description,
-      remainingTime: this.module.remainingTime
+      loadDays: this.module.loadDays
     };
 
     this.loading = true;

@@ -135,7 +135,7 @@ export class AddProduct implements OnInit {
     // Validar que todos los campos estén completos
     if (!this.product.referencia || !this.product.fechaAsignada ||
         !this.product.fechaEntrada || !this.product.marca || !this.product.op ||
-        !this.product.camp || !this.product.tipo ||
+        !this.product.camp || !this.product.tipo || !this.product.talla || this.product.module == null ||
         !this.product.quantity || !this.product.price) {
       this.errorMessage = 'Todos los campos son obligatorios. Por favor complete todos los campos.';
       return;
@@ -145,6 +145,15 @@ export class AddProduct implements OnInit {
     if (!this.dateUtils.isValidDate(this.product.fechaAsignada) ||
         !this.dateUtils.isValidDate(this.product.fechaEntrada)) {
       this.errorMessage = 'Las fechas ingresadas no son válidas.';
+      return;
+    }
+
+    // Validar que fechaEntrada no sea menor que fechaAsignada
+    const fechaAsignadaDate = new Date(this.product.fechaAsignada);
+    const fechaEntradaDate = new Date(this.product.fechaEntrada);
+    // fechaEntrada debe ser igual o mayor que fechaAsignada
+    if (fechaEntradaDate < fechaAsignadaDate) {
+      this.errorMessage = 'La fecha de entrada no puede ser menor que la fecha asignada.';
       return;
     }
 

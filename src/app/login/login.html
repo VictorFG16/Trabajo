@@ -1,4 +1,4 @@
-<div class="row no-gutters" style="height: 100vh">
+<div class="row no-gutters todo" style="height: 100vh">
   <div
     class="col-6 d-flex flex-column justify-content-center align-items-center left-side"
   >
@@ -27,33 +27,37 @@
           {{ errorMessage }}
         </div>
       }
-      <label class="form-label">Usuario</label> 
-      <input
-        type="userName"
-        [(ngModel)]="userName"
-        placeholder="Ingresa tu usuario"
-        style="height: 50px; width: 400px"
-        class="form-control mb-2"
-        required
-      />
-        <label class="form-label">Contraseña</label> 
-      <input
-        type="password"
-        [(ngModel)]="password"
-        placeholder="Ingresa tu contraseña"
-        style="height: 50px"
-        class="form-control mb-4"
-        required
-      />
+      <form (ngSubmit)="onLogin()">
+        <label class="form-label">Usuario</label>
+        <input
+          type="text"
+          name="userName"
+          [(ngModel)]="userName"
+          placeholder="Ingresa tu usuario"
+          style="height: 50px; width: 400px"
+          class="form-control mb-2"
+          required
+        />
+        <label class="form-label">Contraseña</label>
+        <input
+          type="password"
+          name="password"
+          [(ngModel)]="password"
+          placeholder="Ingresa tu contraseña"
+          style="height: 50px"
+          class="form-control mb-4"
+          required
+        />
 
-      <button
-        class="btn btn-primary btn-sml gap-2 col-6 mx-auto fw-bold"
-        style="height: 50px; width: 400px"
-        (click)="onLogin()"
-        [disabled]="!userName || !password"
-      >
-        Iniciar sesión
-      </button>
+        <button
+          type="submit"
+          class="btn btn-primary btn-sml gap-2 col-6 mx-auto fw-bold"
+          style="height: 50px; width: 400px"
+          [disabled]="!userName || !password"
+        >
+          Iniciar sesión
+        </button>
+      </form>
     </div>
   </div>
 </div>

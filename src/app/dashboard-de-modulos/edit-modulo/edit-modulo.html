@@ -1,7 +1,7 @@
 <app-navbar></app-navbar>
 <div class="container mt-4">
     <div class="titulo bg-primary text-white p-3 mb-4">
-        <h2>Editar Modulos</h2>
+        <h2>Editar Equipo</h2>
     </div>
     
     <!-- Mostrar mensaje de error si existe -->
@@ -37,9 +37,9 @@
                 <label for="time">Tiempo</label>
                 <input 
                     type="number" 
-                    id="remainingTime" 
-                    name="remainingTime" 
-                    [(ngModel)]="module.remainingTime" 
+                    id="loadDays" 
+                    name="loadDays" 
+                    [(ngModel)]="module.loadDays" 
                     class="form-control"
                     min="1"
                     required

@@ -29,7 +29,12 @@ export class ProductService {
     searchProducts(q: string) {
         return this.apiservice.get(`/products/search?q=${q}`);
     }
-
+    getProductsByModule(moduleId: number) {
+        return this.apiservice.get(`/products/module/${moduleId}`);
+    }
+    getProductsByDateRange(startDate: string, endDate: string) {
+        return this.apiservice.get(`/products/date-range?start=${startDate}&end=${endDate}`);
+    }
     getProducts() {
         return this.apiservice.get('/products');
     }

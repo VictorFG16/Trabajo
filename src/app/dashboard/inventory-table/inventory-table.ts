@@ -1,3 +1,4 @@
+
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
@@ -43,7 +44,6 @@ export class InventoryTable implements OnInit {
       next: (products) => {
         this.inventory = products.map((product: any) => ({
           id: product.id,
-          
           fechaAsignada: this.dateUtils.formatDateForDisplay(product.assignedDate),
           fechaEntrada: this.dateUtils.formatDateForDisplay(product.plantEntryDate),
           referencia: product.reference,
@@ -56,6 +56,8 @@ export class InventoryTable implements OnInit {
           price: product.price,
           total: product.quantity
         }));
+        // Ordenar por ID descendente (más reciente primero)
+        this.inventory.sort((a, b) => b.id - a.id);
         this.totalRegistros = this.inventory.length;
         this.loading = false;
       },
@@ -90,6 +92,8 @@ export class InventoryTable implements OnInit {
           price: product.price,
           total: product.quantity
         }));
+        // Ordenar por ID descendente (más reciente primero)
+        this.inventory.sort((a, b) => b.id - a.id);
         this.totalRegistros = this.inventory.length;
         this.loading = false;
         this.paginaActual = 1; // Volver a la primera página después de buscar

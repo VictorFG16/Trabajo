@@ -72,7 +72,7 @@ export class ProgressGaugeComponent implements AfterViewInit, OnDestroy, OnChang
     this.chart = new Chart(canvas, {
       type: 'doughnut',
       data: {
-        labels: ['Días usados', 'Días restantes'],
+        labels: ['Días restantes', 'Días usados'],
         datasets: [{
           data: dataForChart,
           backgroundColor: bgColors,

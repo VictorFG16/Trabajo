@@ -1,0 +1,48 @@
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.todo {
+  animation: fadeIn 0.5s ease-in-out;
+}
+.titulo {
+   text-align: center;
+    width: 100%;
+    border-radius: 8px 8px 0 0;
+    margin: 0;
+    box-sizing: border-box;
+    padding: 20px 0 5px 0; /* Solo arriba y abajo */
+    background-color: #1677ff;
+    
+  }
+.btn-blue {
+  background-color: #007bff;
+  color: white;
+  border-color: #007bff;
+}
+
+.btn-blue:hover {
+  background-color: #0056b3;
+  border-color: #0056b3;
+}
+
+.btn-red {
+  background-color: #dc3545;
+  color: white;
+  border-color: #dc3545;
+}
+
+.btn-red:hover {
+  background-color: #c82333;
+  border-color: #bd2130;
+}
+
+.card {
+    border-radius: 1rem;
+}
