@@ -27,11 +27,13 @@ export class AddProduct implements OnInit {
     tipo: '',
     talla: '',
     module: null as Module | null,
+    sam: 0
   };
   errorMessage = '';
 
   // Lista de módulos disponibles
   modules: Module[] = [];
+  showModuleModal = false;
 
   // Nuevas propiedades para el modal de tallas
   showSizeModal = false;
@@ -55,8 +57,7 @@ export class AddProduct implements OnInit {
     { name: 'M', quantity: 0 },
     { name: 'L', quantity: 0 },
     { name: 'XL', quantity: 0 },
-    { name: 'XXL', quantity: 0 },
-    
+    { name: 'XXL', quantity: 0 }
   ];
 
   sizes = [
@@ -86,9 +87,22 @@ export class AddProduct implements OnInit {
         this.modules = modules;
       },
       error: (error) => {
-        console.error('Error al cargar módulos:', error);
+        console.error('Error al cargar equipos:', error);
       }
     });
+  }
+
+  openModuleModal() {
+    this.showModuleModal = true;
+  }
+
+  closeModuleModal() {
+    this.showModuleModal = false;
+  }
+
+  selectModule(mod: Module) {
+    this.product.module = mod;
+    this.closeModuleModal();
   }
 
   // Método para abrir el modal de tallas
@@ -136,7 +150,7 @@ export class AddProduct implements OnInit {
     if (!this.product.referencia || !this.product.fechaAsignada ||
         !this.product.fechaEntrada || !this.product.marca || !this.product.op ||
         !this.product.camp || !this.product.tipo || !this.product.talla || this.product.module == null ||
-        !this.product.quantity || !this.product.price) {
+        !this.product.quantity || !this.product.price || !this.product.sam || this.product.sam <= 0) {
       this.errorMessage = 'Todos los campos son obligatorios. Por favor complete todos los campos.';
       return;
     }
@@ -183,7 +197,8 @@ export class AddProduct implements OnInit {
       type: this.product.tipo,
       sizeQuantities: sizeQuantities,
       size: '', // campo size puede quedar vacío o eliminarse si backend lo permite
-      module: this.product.module // incluir módulo seleccionado
+      module: this.product.module, // enviar el módulo seleccionado o creado
+      sam: this.product.sam
     };
 
     this.productService.createProduct(productData).subscribe({

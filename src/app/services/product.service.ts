@@ -18,6 +18,19 @@ export interface Product {
   module: any; // Cambiado a any para manejar objeto o string
   status?: string;
   sizeQuantities?: Record<string, number>;
+  stoppageReason : string;
+  actualDeliveryDate: string;
+  sam: number;
+  cycleCalculated?: string;
+  quantityMade?: number;
+  missing?: number;
+  quantityPending?: number;
+  deliveryPercentage?: number;
+  loadDays: number;
+  totaLoadDays?: number;
+  numPersons?: number;
+  samTotal?: number;
+  totalPrice?: number;
 }
 
 @Injectable({

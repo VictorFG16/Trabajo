@@ -5,7 +5,9 @@ export interface Module {
   id: number;
   name: string;
   description: string;
-  loadDays: number;
+  numPersons: number;
+  loadDays: string;
+  totalDays: number;
 }
 @Injectable({
   providedIn: 'root'

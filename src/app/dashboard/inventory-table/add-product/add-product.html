@@ -1,6 +1,6 @@
 <app-navbar></app-navbar>
 <div class="container mt-4">
-  <div class="titulo bg-primary text-white p-3 mb-4 " >
+  <div class="titulo bg-primary text-white p-3 mb-4">
     <h2>Crear Orden de Producción</h2>
   </div>
 
@@ -8,8 +8,8 @@
     <div class="alert alert-danger" *ngIf="errorMessage">
       {{ errorMessage }}
     </div>
+
     <div class="row">
-      
       <div class="col-md-6">
         <div class="form-group mb-3">
           <label for="description">Descripción</label>
@@ -19,11 +19,10 @@
             [(ngModel)]="product.description"
             name="descripcion"
             class="form-control"
-            
           />
-
         </div>
       </div>
+
       <div class="col-md-6">
         <div class="form-group mb-3">
           <label for="referencia">Referencia</label>
@@ -36,16 +35,14 @@
             [class.is-invalid]="productForm.submitted && !product.referencia"
             required
           />
-          <div
-            class="invalid-feedback"
-            *ngIf="productForm.submitted && !product.referencia"
-          >
+          <div class="invalid-feedback" *ngIf="productForm.submitted && !product.referencia">
             La referencia es requerida
           </div>
         </div>
       </div>
     </div>
 
+    <!-- FECHAS -->
     <div class="row">
       <div class="col-md-6">
         <div class="form-group mb-3">
@@ -59,14 +56,12 @@
             [class.is-invalid]="productForm.submitted && !product.fechaAsignada"
             required
           />
-          <div
-            class="invalid-feedback"
-            *ngIf="productForm.submitted && !product.fechaAsignada"
-          >
+          <div class="invalid-feedback" *ngIf="productForm.submitted && !product.fechaAsignada">
             La fecha asignada es requerida
           </div>
         </div>
       </div>
+
       <div class="col-md-6">
         <div class="form-group mb-3">
           <label for="fechaEntrada">Fecha Entrada</label>
@@ -79,16 +74,14 @@
             [class.is-invalid]="productForm.submitted && !product.fechaEntrada"
             required
           />
-          <div
-            class="invalid-feedback"
-            *ngIf="productForm.submitted && !product.fechaEntrada"
-          >
+          <div class="invalid-feedback" *ngIf="productForm.submitted && !product.fechaEntrada">
             La fecha de entrada es requerida
           </div>
         </div>
       </div>
     </div>
 
+    <!-- CAMPOS DE TEXTO -->
     <div class="row">
       <div class="col-md-4">
         <div class="form-group mb-3">
@@ -102,14 +95,12 @@
             [class.is-invalid]="productForm.submitted && !product.marca"
             required
           />
-          <div
-            class="invalid-feedback"
-            *ngIf="productForm.submitted && !product.marca"
-          >
+          <div class="invalid-feedback" *ngIf="productForm.submitted && !product.marca">
             La marca es requerida
           </div>
         </div>
       </div>
+
       <div class="col-md-4">
         <div class="form-group mb-3">
           <label for="op">OP</label>
@@ -122,14 +113,12 @@
             [class.is-invalid]="productForm.submitted && !product.op"
             required
           />
-          <div
-            class="invalid-feedback"
-            *ngIf="productForm.submitted && !product.op"
-          >
+          <div class="invalid-feedback" *ngIf="productForm.submitted && !product.op">
             El OP es requerido
           </div>
         </div>
       </div>
+
       <div class="col-md-4">
         <div class="form-group mb-3">
           <label for="camp">Camp</label>
@@ -142,16 +131,14 @@
             [class.is-invalid]="productForm.submitted && !product.camp"
             required
           />
-          <div
-            class="invalid-feedback"
-            *ngIf="productForm.submitted && !product.camp"
-          >
+          <div class="invalid-feedback" *ngIf="productForm.submitted && !product.camp">
             El camp es requerido
           </div>
         </div>
       </div>
     </div>
 
+    <!-- TIPO, TALLAS Y PRECIO -->
     <div class="row">
       <div class="col-md-4">
         <div class="form-group mb-3">
@@ -165,14 +152,12 @@
             [class.is-invalid]="productForm.submitted && !product.tipo"
             required
           />
-          <div
-            class="invalid-feedback"
-            *ngIf="productForm.submitted && !product.tipo"
-          >
+          <div class="invalid-feedback" *ngIf="productForm.submitted && !product.tipo">
             El tipo es requerido
           </div>
         </div>
       </div>
+
       <div class="col-md-4">
         <div class="form-group mb-3">
           <label for="talla">Talla</label>
@@ -180,18 +165,16 @@
             type="button"
             class="btn btn-outline-secondary form-control"
             (click)="openSizeModal()"
-            [class.is-invalid]="productForm.submitted && (!product.talla)"
+            [class.is-invalid]="productForm.submitted && !product.talla"
           >
             {{ product.talla ? 'Tallas seleccionadas' : 'Seleccionar tallas' }}
           </button>
-          <div
-            class="invalid-feedback"
-            *ngIf="productForm.submitted && !product.talla"
-          >
+          <div class="invalid-feedback" *ngIf="productForm.submitted && !product.talla">
             La talla es requerida
           </div>
         </div>
       </div>
+
       <div class="col-md-4">
         <div class="form-group mb-3">
           <label for="price">Precio</label>
@@ -207,41 +190,48 @@
             min="0"
             placeholder="0.00"
           />
-          <div
-            class="invalid-feedback"
-            *ngIf="productForm.submitted && !product.price"
-          >
+          <div class="invalid-feedback" *ngIf="productForm.submitted && !product.price">
             El precio es requerido
           </div>
         </div>
       </div>
     </div>
 
+    <!-- MODULO  -->
     <div class="row">
       <div class="col-md-6">
         <div class="form-group mb-3">
-          <label for="module">Módulo</label>
-          <select
-            id="module"
-            [(ngModel)]="product.module"
-            name="module"
-            class="form-control"
+          <label for="module">Equipo</label>
+          <button
+            type="button"
+            class="btn btn-outline-secondary form-control"
+            (click)="openModuleModal()"
             [class.is-invalid]="productForm.submitted && !product.module"
+          >
+            {{ product.module ? 'Equipo seleccionado' : 'Seleccionar Equipo' }}
+          </button>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="form-group mb-3">
+          <label for="sam">SAM</label>
+          <input
+            type="number"
+            id="sam"
+            [(ngModel)]="product.sam"
+            name="sam"
+            class="form-control"
+            [class.is-invalid]="productForm.submitted && (!product.sam || product.sam <= 0)"
             required
-          >
-            <option [ngValue]="null">-- Seleccionar módulo --</option>
-            <option *ngFor="let module of modules" [ngValue]="module">
-              {{ module.name }} 
-            </option>
-          </select>
-          <div
-            class="invalid-feedback"
-            *ngIf="productForm.submitted && !product.module"
-          >
-            El módulo es requerido
+            min="0.01"
+            step="0.01"
+          />
+          <div class="invalid-feedback" *ngIf="productForm.submitted && (!product.sam || product.sam <= 0)">
+            El SAM es requerido y debe ser mayor a 0
           </div>
         </div>
       </div>
+     <div class="row">
       <div class="col-md-6">
         <div class="form-group mb-3">
           <label for="quantity">Total</label>
@@ -255,33 +245,50 @@
             required
             readonly
           />
-          <div
-            class="invalid-feedback"
-            *ngIf="productForm.submitted && !product.quantity"
-          >
+          <div class="invalid-feedback" *ngIf="productForm.submitted && !product.quantity">
             El total es requerido
           </div>
         </div>
       </div>
     </div>
-
-
-
+</div>
     <div class="buttons d-flex gap-2">
       <button type="submit" class="btn btn-primary">Agregar OP</button>
-      <button
-        type="button"
-        class="btn btn-secondary"
-        (click)="volverAlInventario()"
-      >
-        Cancelar
-      </button>
+      <button type="button" class="btn btn-secondary" (click)="volverAlInventario()">Cancelar</button>
     </div>
   </form>
 </div>
 
-<!-- Modal para seleccionar tallas -->
-<div class="modal" tabindex="-1" [ngClass]="{'show d-block': showSizeModal}" style="background-color: rgba(0,0,0,0.5);">
+<!-- MODAL DE MÓDULOS -->
+<div class="modal" id="moduleModal" tabindex="-1" [ngClass]="{'show d-block': showModuleModal}" style="background-color: rgba(0,0,0,0.5);">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Seleccionar Equipo</h5>
+        <button type="button" class="btn-close" aria-label="Close" (click)="closeModuleModal()"></button>
+      </div>
+      <div class="modal-body">
+        <h6 class="text-center mb-3">Seleccionar Equipo</h6>
+        <div class="list-group">
+          <button
+            type="button"
+            class="list-group-item list-group-item-action"
+            *ngFor="let mod of modules"
+            (click)="selectModule(mod)">
+            {{ mod.name }} - {{ mod.description }}
+          </button>
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" (click)="closeModuleModal()">Cerrar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL DE TALLAS -->
+<div class="modal" id="sizeModal" tabindex="-1" [ngClass]="{'show d-block': showSizeModal}" style="background-color: rgba(0,0,0,0.5);">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
@@ -289,25 +296,11 @@
         <button type="button" class="btn-close" aria-label="Close" (click)="closeSizeModal()"></button>
       </div>
       <div class="modal-body">
-        <!-- Navegación entre secciones -->
         <div class="d-flex justify-content-center mb-3">
-          <button
-            type="button"
-            class="btn btn-outline-primary me-2"
-            [class.active]="activeSizeSection === 'kids'"
-            (click)="showKidsSizes()">
-            Tallas Niños
-          </button>
-          <button
-            type="button"
-            class="btn btn-outline-primary"
-            [class.active]="activeSizeSection === 'adult'"
-            (click)="showAdultSizes()">
-            Tallas Adultos
-          </button>
+          <button type="button" class="btn btn-outline-primary me-2" [class.active]="activeSizeSection === 'kids'" (click)="showKidsSizes()">Tallas Niños</button>
+          <button type="button" class="btn btn-outline-primary" [class.active]="activeSizeSection === 'adult'" (click)="showAdultSizes()">Tallas Adultos</button>
         </div>
 
-        <!-- Sección de tallas de niños -->
         <div *ngIf="activeSizeSection === 'kids'">
           <h6 class="text-center mb-3">Tallas de Niños</h6>
           <div *ngFor="let size of kidsSizes" class="mb-2 d-flex align-items-center">
@@ -316,7 +309,6 @@
           </div>
         </div>
 
-        <!-- Sección de tallas de adultos -->
         <div *ngIf="activeSizeSection === 'adult'">
           <h6 class="text-center mb-3">Tallas de Adultos</h6>
           <div *ngFor="let size of adultSizes" class="mb-2 d-flex align-items-center">
@@ -325,6 +317,7 @@
           </div>
         </div>
       </div>
+
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" (click)="closeSizeModal()">Cancelar</button>
         <button type="button" class="btn btn-primary" (click)="saveSizes()">Guardar</button>

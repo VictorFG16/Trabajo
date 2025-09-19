@@ -9,10 +9,10 @@ import { Navbar } from '../../navbar/navbar';
 
 @Component({
   selector: 'app-edit-product',
-  standalone: true, // 👈 si tu proyecto usa standalone, mantenlo, si no, quítalo
+  standalone: true, 
   imports: [FormsModule, CommonModule, Navbar],
   templateUrl: './edit-product.html',
-  styleUrls: ['./edit-product.css'] // 👈 corregido
+  styleUrls: ['./edit-product.css'] 
 })
 export class EditProduct implements OnInit {
   product = {
@@ -29,6 +29,11 @@ export class EditProduct implements OnInit {
     tipo: '',
     talla: '',
     module: null as Module | null,
+    stoppageReason: '',
+    status: '',
+    actualDeliveryDate: '',
+    sam: 0,
+    quantityMade: 0
   };
   errorMessage = '';
   loading = false;
@@ -36,8 +41,26 @@ export class EditProduct implements OnInit {
 
   modules: Module[] = [];
 
+  stoppageReasons: string[] = [
+    'MARQUILLA TALLA',
+    'COMPOSICION',
+    'CODIGO',
+    'FALTANTE DE PIEZA',
+    'BOLSAS',
+    'FALTA TODO',
+    'OK',
+    'FICHA',
+    'SESGO'
+  ];
+  status: string[] = [
+    'PROCESO',
+    'ASIGNADO',
+    'CONFECCION'
+
+  ]
   showSizeModal = false;
   activeSizeSection: 'kids' | 'adult' = 'kids';
+  showModuleModal = false;
 
   kidsSizes = [
     { name: '2', quantity: 0 },
@@ -66,8 +89,8 @@ export class EditProduct implements OnInit {
     private moduleService: ModuleService
   ) {}
 
-  ngOnInit() {
-    this.loadModules();
+  async ngOnInit() {
+    await this.loadModules();
     this.route.params.subscribe(params => {
       this.productId = +params['id'];
       if (this.productId) {
@@ -76,14 +99,18 @@ export class EditProduct implements OnInit {
     });
   }
 
-  loadModules() {
-    this.moduleService.getAllModules().subscribe({
-      next: (modules) => {
-        this.modules = modules;
-      },
-      error: (error) => {
-        console.error('Error al cargar módulos:', error);
-      }
+  loadModules(): Promise<void> {
+    return new Promise((resolve, reject) => {
+      this.moduleService.getAllModules().subscribe({
+        next: (modules) => {
+          this.modules = modules;
+          resolve();
+        },
+        error: (error) => {
+          console.error('Error al cargar módulos:', error);
+          reject(error);
+        }
+      });
     });
   }
 
@@ -121,6 +148,19 @@ export class EditProduct implements OnInit {
     this.closeSizeModal();
   }
 
+  openModuleModal() {
+    this.showModuleModal = true;
+  }
+
+  closeModuleModal() {
+    this.showModuleModal = false;
+  }
+
+  selectModule(mod: Module) {
+    this.product.module = mod;
+    this.closeModuleModal();
+  }
+
   loadProduct(id: number) {
     this.loading = true;
     this.productService.getProductById(id).subscribe({
@@ -139,6 +179,11 @@ export class EditProduct implements OnInit {
           tipo: product.type || '',
           talla: '',
           module: null,
+          stoppageReason: product.stoppageReason || '',
+          status: product.status || '',
+          actualDeliveryDate: this.dateUtils.formatDateForBackend(product.actualDeliveryDate),
+          sam: product.sam || 0,
+          quantityMade: product.quantityMade || 0
         };
 
         if (product.module && product.module.id) {
@@ -203,7 +248,8 @@ export class EditProduct implements OnInit {
     if (!this.product.referencia || !this.product.fechaAsignada ||
         !this.product.fechaEntrada || !this.product.marca || !this.product.op ||
         !this.product.camp || !this.product.tipo ||
-        !this.product.quantity || !this.product.price || !this.product.module) {
+        !this.product.quantity || !this.product.price || !this.product.module ||
+        !this.product.sam || this.product.sam <= 0) {
       this.errorMessage = 'Todos los campos son obligatorios. Por favor complete todos los campos.';
       return;
     }
@@ -230,7 +276,7 @@ export class EditProduct implements OnInit {
 
     const productData = {
       id: this.product.id,
-      description: this.product.description,
+      description: this.product.description === '' ? null : this.product.description,
       price: this.product.price,
       quantity: this.product.quantity,
       assignedDate: this.dateUtils.formatDateForBackend(this.product.fechaAsignada),
@@ -242,7 +288,13 @@ export class EditProduct implements OnInit {
       type: this.product.tipo,
       sizeQuantities: sizeQuantities,
       size: '',
-      module: this.product.module
+      module: this.product.module,
+      stoppageReason: this.product.stoppageReason === '' ? null : this.product.stoppageReason,
+      status: this.product.status === '' ? null : this.product.status,
+      actualDeliveryDate: this.dateUtils.formatDateForBackend(this.product.actualDeliveryDate),
+      sam: this.product.sam,
+      quantityMade: this.product.quantityMade
+
     };
 
     this.loading = true;

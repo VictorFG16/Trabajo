@@ -41,15 +41,26 @@ export function generateProductPdf(product: any, sizeSummary: { size: string; qu
     ['Marca', product.brand],
     ['Campaña', product.campaign],
     ['Tipo', product.type],
-    ['Módulo', product.module?.name || product.module || 'No asignado'],
+    ['Equipo', product.module?.name || product.module || 'No asignado'],
     ['Fecha Asignada', formatDateForDisplay(product.assignedDate)],
     ['Fecha Entrada', formatDateForDisplay(product.plantEntryDate)],
     ['Precio', product.price ? `$${product.price}` : ''],
     ['Cantidad', product.quantity],
-    ['Total', product.price && product.quantity ? `$${product.price * product.quantity}` : ''],
-    ['Descripción', product.description]
+    ['Precio Total', product.price && product.quantity ? `$${product.price * product.quantity}` : ''],
+    ['Descripción', product.description],
+    ['Descripción paro', product.stoppageReason || ''],
+    ['Estado', product.status || ''],
+    ['Ciclo', product.cycleCalculated || ''],
+    ['Cantidad confeccionada', product.quantityMade || ''],
+    ['Cantidad faltante', product.quantityPending || ''],
+    ['% de entrega', product.deliveryPercentage ? `${product.deliveryPercentage}%` : ''],
+    ['Fecha de entrega real', formatDateForDisplay(product.actualDeliveryDate)],
+    ['SAM', product.sam || ''],
+    ['Días de carga', product.loadDays || ''],
+    ['Días de carga total', product.totaLoadDays || ''],
+    ['Número de personas', product.numPersons || ''],
+    ['SAM total', product.samTotal || '']
   ];
-
   productDetails.forEach(row => {
     body.push(row);
   });

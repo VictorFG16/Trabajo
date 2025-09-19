@@ -43,13 +43,13 @@
     </div>
     <div class="col-md-70">
             <div class="form-group mb-3">
-                <label for="time">Tiempo</label>
-                <input 
-                    type="number" 
-                    id="loadDays" 
-                    name="loadDays"  
+                <label for="numPersons">Número de Personas</label>
+                <input
+                    type="number"
+                    id="numPersons"
+                    name="numPersons"
                     class="form-control"
-                    [(ngModel)]="module.loadDays"
+                    [(ngModel)]="module.numPersons"
                     required
                 />
             </div>
@@ -58,7 +58,7 @@
       <button type="submit" class="btn btn-primary" [disabled]="loading">
         <i class="fas fa-save" *ngIf="!loading"></i>
         <i class="fas fa-spinner fa-spin" *ngIf="loading"></i>
-        {{ loading ? 'Creando...' : 'Crear Modulo' }}
+        {{ loading ? 'Creando...' : 'Crear Equipo' }}
       </button>
       <button
         type="button"

@@ -23,15 +23,7 @@
             id="description"
             [(ngModel)]="product.description"
             name="descripcion"
-            class="form-control"
-            [class.is-invalid]="productForm.submitted && !product.description"
-            required
-            [disabled]="loading"
-          />
-          <div
-            class="invalid-feedback"
-            *ngIf="productForm.submitted && !product.description"></div>
-          
+            class="form-control">
         </div>
       </div>
       <div class="col-md-6">
@@ -231,6 +223,114 @@
         </div>
 
       </div>
+      
+    
+    </div>
+
+    <div class="row">
+      <div class="col-md-6">
+        <div class="form-group mb-3">
+          <label for="module">Equipo</label>
+          <button
+            type="button"
+            class="btn btn-outline-secondary form-control"
+            (click)="openModuleModal()"
+            [class.is-invalid]="productForm.submitted && !product.module"
+            [disabled]="loading"
+          >
+            {{ product.module ? 'Equipo seleccionado: ' + product.module.name : 'Seleccionar equipo' }}
+          </button>
+          <div
+            class="invalid-feedback"
+            *ngIf="productForm.submitted && !product.module"
+          >
+            El equipo es requerido
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="form-group mb-3">
+          <label for="stopReason">Descripción Paro</label>
+          <select
+            id="stopReason"
+            [(ngModel)]="product.stoppageReason"
+            name="stoppageReason"
+            class="form-control">
+            <option [ngValue]="''">-- Seleccionar razón --</option>
+            <option *ngFor="let reason of stoppageReasons" [ngValue]="reason">
+              {{ reason }}
+            </option>
+          </select>
+          
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-6">
+        <div class="form-group mb-3">
+          <label for="status">Estado</label>
+          <select
+            id="status"
+            [(ngModel)]="product.status"
+            name="status"
+            class="form-control"
+          >
+            <option [ngValue]="''">-- Seleccionar estado --</option>
+            <option *ngFor="let statu of status" [ngValue]="statu">
+              {{ statu }}
+            </option>
+          </select>
+
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="form-group mb-3">
+          <label for="sam">SAM</label>
+          <input
+            type="number"
+            id="sam"
+            [(ngModel)]="product.sam"
+            name="sam"
+            class="form-control"
+            [class.is-invalid]="productForm.submitted && (!product.sam || product.sam <= 0)"
+            required
+            min="0.01"
+            step="0.01"
+          />
+          <div class="invalid-feedback" *ngIf="productForm.submitted && (!product.sam || product.sam <= 0)">
+            El SAM es requerido y debe ser mayor a 0
+          </div>
+        </div>
+      </div>
+      <div class="row">
+      <div class="col-md-6">
+       <div class="form-group mb-3">
+        <label for="actualDeliveryDate">Fecha Entrega Real</label>
+        <input
+        type ="date"
+          id="actualDeliveryDate"
+          [(ngModel)]="product.actualDeliveryDate"
+          name="actualDeliveryDate"
+          class="form-control"
+       >
+     </div>
+      </div>
+      <div class="col-md-6">
+        <div class="form-group mb-3">
+          <label for="cantidadProducida">Cantidad Confeccionada</label>
+          <input
+            type="number"
+            id="cantidadConfeccionada"
+            [(ngModel)]="product.quantityMade"
+            name="cantidadProducida"
+            class="form-control">
+          
+           
+          </div>
+      </div>
+    </div>
+    </div>
+      
       <div class="col-md-4">
         <div class="form-group mb-3">
           <label for="quantity">Total</label>
@@ -253,36 +353,6 @@
           </div>
         </div>
       </div>
-    </div>
-
-    <div class="row">
-      <div class="col-md-6">
-        <div class="form-group mb-3">
-          <label for="module">Módulo</label>
-          <select
-            id="module"
-            [(ngModel)]="product.module"
-            name="module"
-            class="form-control"
-            [class.is-invalid]="productForm.submitted && !product.module"
-            required
-            [disabled]="loading"
-          >
-            <option [ngValue]="null">-- Seleccionar módulo --</option>
-            <option *ngFor="let module of modules" [ngValue]="module">
-              {{ module.name }}
-            </option>
-          </select>
-          <div
-            class="invalid-feedback"
-            *ngIf="productForm.submitted && !product.module"
-          >
-            El módulo es requerido
-          </div>
-        </div>
-      </div>
-    </div>
-
     <div class="buttons d-flex gap-2">
       <button type="submit" class="btn btn-primary" [disabled]="loading">
         <i class="fas fa-save" *ngIf="!loading"></i>
@@ -301,8 +371,7 @@
   </form>
 </div>
 
-<!-- Modal para seleccionar tallas -->
-<div class="modal" tabindex="-1" [ngClass]="{'show d-block': showSizeModal}" style="background-color: rgba(0,0,0,0.5);">
+<div class="modal" [ngClass]="{'show d-block': showSizeModal}" style="background-color: rgba(0,0,0,0.5);">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
@@ -349,6 +418,33 @@
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" (click)="closeSizeModal()">Cancelar</button>
         <button type="button" class="btn btn-primary" (click)="saveSizes()">Guardar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL DE MÓDULOS -->
+<div class="modal" id="moduleModal" tabindex="-1" [ngClass]="{'show d-block': showModuleModal}" style="background-color: rgba(0,0,0,0.5);">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Seleccionar Equipo</h5>
+        <button type="button" class="btn-close" aria-label="Close" (click)="closeModuleModal()"></button>
+      </div>
+      <div class="modal-body">
+        <h6 class="text-center mb-3">Seleccionar Equipo</h6>
+        <div class="list-group">
+          <button
+            type="button"
+            class="list-group-item list-group-item-action"
+            *ngFor="let mod of modules"
+            (click)="selectModule(mod)">
+            {{ mod.name }} - {{ mod.description }}
+          </button>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" (click)="closeModuleModal()">Cerrar</button>
       </div>
     </div>
   </div>

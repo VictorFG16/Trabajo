@@ -32,6 +32,12 @@
 
 .detalle-op-panel.empty {
   background: #fafafa;
+  padding: 0; /* Reducir padding para eliminar espacio */
+  display: flex;
+  flex-direction: column;
+  justify-content: center; /* Centrar contenido verticalmente */
+  height: auto; /* Ajustar altura automática */
+  min-height: 150px; /* Altura mínima para que no colapse demasiado */
 }
 
 /* Headers de los paneles */

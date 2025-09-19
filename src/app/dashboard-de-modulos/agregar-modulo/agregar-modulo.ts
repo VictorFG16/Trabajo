@@ -15,7 +15,7 @@ export class AgregarModulo {
   module = {
     name: '',
     description: '',
-    loadDays: 0,
+    numPersons: 0,
   };
 errorMessage = '';
 loading = false;
@@ -35,7 +35,7 @@ onSubmit(form: NgForm) {
 this.errorMessage = '';
 this.loading = true;
 
-if (!this.module.name || !this.module.description || this.module.loadDays <= 0) {
+if (!this.module.name || !this.module.description || this.module.numPersons <= 0) {
   this.errorMessage = 'Por favor, complete todos los campos correctamente.';
   this.loading = false;
   return;
@@ -43,7 +43,7 @@ if (!this.module.name || !this.module.description || this.module.loadDays <= 0) 
  const moduleData = {
    name: this.module.name,
    description: this.module.description,
-   loadDays: this.module.loadDays,
+   numPersons: this.module.numPersons,
 };
  this.moduleService.createModule(moduleData).subscribe({
    next: (response) => {

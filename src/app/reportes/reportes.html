@@ -12,9 +12,9 @@
 
     <div class="d-flex flex-wrap align-items-center gap-3 mb-4 mt-4 p-2">
       <div class="d-flex align-items-center gap-2 flex-grow-1">
-        <label for="module-select" class="form-label mb-0 fw-bold">Módulo:</label>
+        <label for="module-select" class="form-label mb-0 fw-bold">Equipo:</label>
         <select id="module-select" class="form-select" [(ngModel)]="selectedModuleId">
-          <option [ngValue]="null">Selecciona un Módulo</option>
+          <option [ngValue]="null">Selecciona un equipo</option>
           <option *ngFor="let module of modules" [ngValue]="module.id">{{ module.name }}</option>
         </select>
       </div>
@@ -52,7 +52,7 @@
           <th scope="col">Marca</th>
           <th scope="col">OP</th>
           <th scope="col">Fecha de asignación</th>
-          <th scope="col">Módulo</th>
+          <th scope="col">Equipo</th>
         </tr>
         </thead>
         <tbody>
