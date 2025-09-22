@@ -6,15 +6,20 @@
       <span class="logo-text ">CARSIL</span>
     </div>
     <div class="dropdown ms-auto">
-      <button
-        class="btn btn-primary dropdown-toggle "
-        type="button"
-        data-bs-toggle="dropdown"
-      ><span class="user-icon">{{ getInitials(userName) }}</span>
-<span>{{ formatUserName(userName) }}</span></button>
-      <ul class="dropdown-menu text-center">
-        <li><a class="dropdown-item" href="/"> Cerrar sesión</a></li>
-      </ul>
-    </div>
+  <button
+    class="btn btn-primary dropdown-toggle"
+    type="button"
+    data-bs-toggle="dropdown"
+  >
+    <span class="user-icon">{{ getInitials(userName) }}</span>
+    <span>{{ formatUserName(userName) }}</span>
+  </button>
+
+  <ul class="dropdown-menu text-center">
+    <!-- 👇 LLAMA A logout() CUANDO HAGAS CLICK -->
+    <li><a class="dropdown-item" (click)="logout()">Cerrar sesión</a></li>
+  </ul>
+</div>
+
   </div>
 </nav>

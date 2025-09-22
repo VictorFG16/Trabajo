@@ -5,7 +5,9 @@ export interface Module {
   id: number;
   name: string;
   description: string;
-  remainingTime: number;
+  numPersons: number;
+  loadDays: string;
+  totalDays: number;
 }
 @Injectable({
   providedIn: 'root'
@@ -20,6 +22,9 @@ export class ModuleService {
 
   getModuleById(id: number) {
     return this.apiService.get(`/modules/${id}`);
+  }
+  createModule(module: any) {
+    return this.apiService.post('/modules', module);
   }
 
   updateModule(id: number, module: any) {

@@ -33,6 +33,9 @@
   background-color: white;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
+.agregar {
+  background-color: #80EF80;
+}
 .editarModulo {
   background-color: #FFC067;
 }
@@ -42,13 +45,13 @@
   transition: all 0.3s ease;
 }
 
-/* Efecto hover solo para botones habilitados */
+
 .btn:not(.btn-disabled):hover {
   transform: translateY(-2px);
   box-shadow: 0 4px 8px rgba(0,0,0,0.2);
 }
 
-/* Estilos específicos para botones cuando están deshabilitados */
+
 .editarModulo:disabled {
   opacity: 0.5;
   cursor: not-allowed;

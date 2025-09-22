@@ -15,7 +15,22 @@ export interface Product {
   campaign: string;
   type: string;
   size: string;
+  module: any; // Cambiado a any para manejar objeto o string
   status?: string;
+  sizeQuantities?: Record<string, number>;
+  stoppageReason : string;
+  actualDeliveryDate: string;
+  sam: number;
+  cycleCalculated?: string;
+  quantityMade?: number;
+  missing?: number;
+  quantityPending?: number;
+  deliveryPercentage?: number;
+  loadDays: number;
+  totaLoadDays?: number;
+  numPersons?: number;
+  samTotal?: number;
+  totalPrice?: number;
 }
 
 @Injectable({
@@ -27,7 +42,12 @@ export class ProductService {
     searchProducts(q: string) {
         return this.apiservice.get(`/products/search?q=${q}`);
     }
-
+    getProductsByModule(moduleId: number) {
+        return this.apiservice.get(`/products/module/${moduleId}`);
+    }
+    getProductsByDateRange(startDate: string, endDate: string) {
+        return this.apiservice.get(`/products/date-range?start=${startDate}&end=${endDate}`);
+    }
     getProducts() {
         return this.apiservice.get('/products');
     }
