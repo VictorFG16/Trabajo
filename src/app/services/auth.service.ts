@@ -28,17 +28,12 @@ export class AuthService {
 
   // Consulta el usuario actual
   getCurrentUser() {
-    const name = localStorage.getItem('userName');
-    if (!name) {
-      return this.http.get<User>(
-        `http://localhost:8080/api/users/by-name/anonymous`,
-        { observe: 'body' as const }
-      );
-    }
-    return this.http.get<User>(
-      `http://localhost:8080/api/users/by-name/${encodeURIComponent(name)}`
-    );
+  const name = localStorage.getItem('userName');
+  if (!name) {
+    return this.apiService.get('/users/by-name/anonymous');
   }
+  return this.apiService.get(`/users/by-name/${encodeURIComponent(name)}`);
+}
 
   // Cerrar sesión
   clearSession() {
