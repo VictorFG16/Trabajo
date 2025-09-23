@@ -1,12 +1,17 @@
-<button class="btn btn-primary volver mt-4 ms-5" (click)="volverAlHome()"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-2-square" viewBox="0 0 16 16">
-  <path d="M6.646 6.24v.07H5.375v-.064c0-1.213.879-2.402 2.637-2.402 1.582 0 2.613.949 2.613 2.215 0 1.002-.6 1.667-1.287 2.43l-.096.107-1.974 2.22v.077h3.498V12H5.422v-.832l2.97-3.293c.434-.475.903-1.008.903-1.705 0-.744-.557-1.236-1.313-1.236-.843 0-1.336.615-1.336 1.306"/>
-  <path d="M0 2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2zm15 0a1 1 0 0 0-1-1H2a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1z"/>
-</svg> Volver al Home</button>
+
 <div class="container-todo">
+  <div class="container  ">
+    <button class="btn btn-primary m-3" (click)="volverAlHome()"><svg xmlns="http://www.w3.org/2000/svg" width="16"
+            height="16" fill="currentColor" class="bi bi-arrow-return-left" viewBox="0 0 16 16">
+            <path fill-rule="evenodd"
+                d="M14.5 1.5a.5.5 0 0 1 .5.5v4.8a2.5 2.5 0 0 1-2.5 2.5H2.707l3.347 3.346a.5.5 0 0 1-.708.708l-4.2-4.2a.5.5 0 0 1 0-.708l4-4a.5.5 0 1 1 .708.708L2.707 8.3H12.5A1.5 1.5 0 0 0 14 6.8V2a.5.5 0 0 1 .5-.5" />
+        </svg>
+        Volver al home
+    </button>
   <div class="table-container">
     <div class="header">
       <div class="titulo bg-primary">
-        <h2 class="table-titulo text-light">Lista de Productos</h2>
+        <h2 class="table-titulo text-light">Lista Ordenes de Producción</h2>
       </div>
 
       <button class="btn m-3 agregar fw-bold" (click)="agregar()">
@@ -17,7 +22,7 @@
           <path
             d="M14 4.5V14a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2h5.5zm-3 0A1.5 1.5 0 0 1 9.5 3V1H4a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V4.5z" />
         </svg>
-        Agregar Producto
+        Agregar Ordenes de Producción
       </button>
       <button class="btn editar m-3 fw-bold" [disabled]="!isAnyRowSelected()" [class.disabled]="!isAnyRowSelected()"
         (click)="editarFila()">
@@ -56,7 +61,7 @@
           <input class="form-control me-2" type="search" placeholder="Buscar por OP, Referencia, Campaña o Marca"
             aria-label="Search" [(ngModel)]="searchTerm" name="searchTerm" />
           <button class="btn btn-outline-success me-2" type="submit">Buscar</button>
-          <button *ngIf="isSearching" class="btn btn-outline-secondary" type="button" (click)="clearSearch()">
+          <button *ngIf="isSearching" class="btn btn-outline-secondary " type="button" (click)="clearSearch()">
             Limpiar
           </button>
         </form>
@@ -86,7 +91,7 @@
       <table *ngIf="!loading && !error" class="table table-striped mb-0">
         <thead class="bg-light">
           <tr>
-            <th>ID</th>
+            
             <th>Fecha asignada</th>
             <th>Fecha entrada</th>
             <th>Referencia</th>
@@ -94,7 +99,7 @@
             <th>Op</th>
             <th>Camp</th>
             <th>Tipo</th>
-            <th>Talla</th>
+            <th>Equipo</th>
             <th>Descripción</th>
             <th>Precio</th>
             <th>Total</th>
@@ -102,8 +107,8 @@
         </thead>
         <tbody>
           <tr *ngFor="let item of productosPaginados; let rowIndex = index">
-            <td [class.selected-column]="isRowSelected(rowIndex)" (click)="selectRow(rowIndex, $event)">{{ item.id }}
-            </td>
+        
+
             <td [class.selected-column]="isRowSelected(rowIndex)" (click)="selectRow(rowIndex, $event)">{{
               item.fechaAsignada }}</td>
             <td [class.selected-column]="isRowSelected(rowIndex)" (click)="selectRow(rowIndex, $event)">{{
@@ -118,8 +123,7 @@
             </td>
             <td [class.selected-column]="isRowSelected(rowIndex)" (click)="selectRow(rowIndex, $event)">{{ item.tipo }}
             </td>
-            <td [class.selected-column]="isRowSelected(rowIndex)" (click)="selectRow(rowIndex, $event)">{{ item.talla }}
-            </td>
+            <td [class.selected-column]="isRowSelected(rowIndex)" (click)="selectRow(rowIndex, $event)">{{ item.modulo?.name || '' }}</td>
             <td [class.selected-column]="isRowSelected(rowIndex)" (click)="selectRow(rowIndex, $event)">{{
               item.descripcion }}</td>
             <td [class.selected-column]="isRowSelected(rowIndex)" (click)="selectRow(rowIndex, $event)">{{ item.price }}
@@ -157,8 +161,8 @@
   </div>
 
   <!-- Modal de confirmación para eliminar -->
-  <div *ngIf="showDeleteModal" class="modal-backdrop show"></div>
-  <div *ngIf="showDeleteModal" class="modal show d-block" tabindex="-1">
+  
+  <div *ngIf="showDeleteModal" class="modal show d-block delete-component" tabindex="-1">
     <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content">
         <div class="modal-header bg-danger text-white">
@@ -166,7 +170,7 @@
           <button type="button" class="btn-close" (click)="closeDeleteModal()"></button>
         </div>
         <div class="modal-body">
-          <p>¿Estás seguro de que deseas eliminar el producto
+          <p>¿Estás seguro de que deseas eliminar la orden de producción seleccionada?</p>
           <p class="text-muted">Esta acción no se puede deshacer.</p>
         </div>
         <div class="modal-footer ">

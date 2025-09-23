@@ -1,37 +1,35 @@
-import { Component, inject } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { Component } from '@angular/core';
 import { Router } from '@angular/router';
-import { CommonModule } from '@angular/common';
 import { AuthService } from '../services/auth.service';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-login',
-  imports: [FormsModule, CommonModule],
+  imports: [FormsModule],
   templateUrl: './login.html',
-  styleUrls: ['./login.css'],
-  standalone: true,
-  providers: [AuthService],
+  styleUrls: ['./login.css']
 })
 export class Login {
-  userName: string = '';
-  password: string = '';
-  errorMessage: string = '';
+  userName = '';
+  password = '';
+  errorMessage = '';
 
-  private router = inject(Router);
-  private authService = inject(AuthService);
+  constructor(private authService: AuthService, private router: Router) {}
 
   onLogin() {
-    this.authService.login(this.userName, this.password).subscribe({
-      next: (response) => {
-        // Login exitoso
-        localStorage.setItem('token', response.token || '');
-        localStorage.setItem('userName', this.userName);
-        this.router.navigate(['/home']);
-      },
-      error: (error) => {
-        // Error del backend Java
-        this.errorMessage = error.error?.error || 'Credenciales inválidas';
-      },
-    });
+  this.authService.login(this.userName, this.password).subscribe({
+    next: () => {
+      this.router.navigate(['/home']); 
+    },
+    error: () => {
+      this.errorMessage = 'Usuario o contraseña incorrectos';
+    }
+  });
+}
+
+ngOnInit() {
+  if (this.authService.isLoggedIn()) {
+    this.router.navigate(['/home']); 
   }
+}
 }

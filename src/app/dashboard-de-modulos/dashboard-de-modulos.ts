@@ -40,12 +40,12 @@ export class DashboardDeModulos implements OnInit {
     });
   }
 
-  getModuleColor(remainingTime: number): string {
-    if (remainingTime <= 0.49) {
+  getModuleColor(loadDays: number): string {
+    if (loadDays <= 0.49) {
       return 'red';
-    } else if (remainingTime <= 0.99) {
+    } else if (loadDays <= 0.99) {
       return '#FFDE21';
-    } else if (remainingTime <= 7) {
+    } else if (loadDays <= 7) {
       return 'green';
     } else {
       return 'red';
@@ -65,6 +65,10 @@ export class DashboardDeModulos implements OnInit {
 
   volverAlHome() {
     this.router.navigate(['/home']);
+  }
+
+  agregarModulo(){
+    this.router.navigate (['/agregar-modulo'])
   }
   
   editarModulo() { 

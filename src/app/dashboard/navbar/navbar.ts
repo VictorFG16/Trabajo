@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../../services/auth.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-navbar',
@@ -9,7 +10,7 @@ import { AuthService } from '../../services/auth.service';
 export class Navbar implements OnInit {
   userName: string = '';
 
-  constructor(private authService: AuthService) {}
+  constructor(private authService: AuthService, private router: Router) {}
 
   ngOnInit() {
     this.authService.getCurrentUser().subscribe({
@@ -34,5 +35,9 @@ export class Navbar implements OnInit {
       .split(' ')
       .map(word => word.charAt(0).toUpperCase() + word.slice(1))
       .join(' ');
+  }
+  logout() {
+    this.authService.clearSession(); // 🔥 Limpia el token
+    this.router.navigate(['/login']); // 👈 Redirige al login
   }
 }
