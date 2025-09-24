@@ -29,7 +29,7 @@ export class Buscador implements OnInit, OnDestroy {
   constructor(
     private productService: ProductService,
     private router: Router,
-    
+
   ) {}
 
   ngOnInit(): void {
@@ -45,6 +45,7 @@ export class Buscador implements OnInit, OnDestroy {
   private normalizeProduct(product: any): Product {
     return {
       ...product,
+      id: product.id,
       reference: product.reference ?? 'N/A',
       brand: product.brand ?? 'N/A',
       op: product.op ?? 'N/A',
@@ -64,13 +65,10 @@ export class Buscador implements OnInit, OnDestroy {
       actualDeliveryDate: product.actualDeliveryDate ?? null,
       status: product.status ?? 'N/A',
       numPersons: product.module?.numPersons ?? 0,
-      totaLoadDays: product.module?.totaLoadDays ?? 0,
       module: {
-        id: product.module?.id ?? 0,
         name: product.module?.name ?? 'N/A',
         description: product.module?.description ?? 'N/A',
-        numPersons: product.module?.numPersons ?? 0,
-        totaLoadDays: product.module?.totaLoadDays ?? 0
+        numPersons: product.module?.numPersons ?? 0
       },
       sizeQuantities: product.sizeQuantities ?? {}
     };
@@ -180,8 +178,8 @@ export class Buscador implements OnInit, OnDestroy {
     this.hasSearched = false;
   }
 
-  trackByProduct(index: number, product: Product): number {
-    return product.id;
+  trackByProduct(index: number, product: Product): string {
+    return product.op;
   }
 
   volverAlHome(): void {
