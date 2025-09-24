@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from '../services/auth.service';
 import { FormsModule } from '@angular/forms';
+import { SessionService } from '../services/session.service';
 
 @Component({
   selector: 'app-login',
@@ -14,7 +15,7 @@ export class Login {
   password = '';
   errorMessage = '';
 
-  constructor(private authService: AuthService, private router: Router) {}
+  constructor(private authService: AuthService, private sessionService: SessionService  ,private router: Router) {}
 
   onLogin() {
   this.authService.login(this.userName, this.password).subscribe({
@@ -29,6 +30,7 @@ export class Login {
 
 ngOnInit() {
   if (this.authService.isLoggedIn()) {
+    this.sessionService.resetTimer();
     this.router.navigate(['/home']); 
   }
 }
