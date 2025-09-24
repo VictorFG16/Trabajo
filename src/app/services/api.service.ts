@@ -5,7 +5,8 @@ import { catchError, retry } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
-})
+})  
+
 export class ApiService {
   private baseUrl = 'http://localhost:8080/api';
 
