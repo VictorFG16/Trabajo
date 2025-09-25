@@ -5,8 +5,10 @@ import { catchError, retry } from 'rxjs/operators';
 import { HttpErrorResponse } from '@angular/common/http'; // Importar HttpErrorResponse
 
 @Injectable({
+
 providedIn: 'root'
 })
+
 export class ApiService {
 private baseUrl = 'http://localhost:8080/api';
 

@@ -161,13 +161,13 @@
   </div>
 
   <!-- Modal de confirmación para eliminar -->
-  
+  <div class="modal-backdrop fade show" *ngIf="showDeleteModal"></div>
   <div *ngIf="showDeleteModal" class="modal show d-block delete-component" tabindex="-1">
     <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content">
         <div class="modal-header bg-danger text-white">
           <h5 class="modal-title">Confirmar Eliminación</h5>
-          <button type="button" class="btn-close" (click)="closeDeleteModal()"></button>
+          <button type="button" class="btn-close cerrar"  (click)="closeDeleteModal()"></button>
         </div>
         <div class="modal-body">
           <p>¿Estás seguro de que deseas eliminar la orden de producción seleccionada?</p>

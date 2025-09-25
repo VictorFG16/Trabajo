@@ -2,7 +2,11 @@ import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from '../services/auth.service';
 import { FormsModule } from '@angular/forms';
+
 import { HttpErrorResponse } from '@angular/common/http';
+
+import { SessionService } from '../services/session.service';
+
 
 @Component({
 selector: 'app-login',
@@ -15,7 +19,11 @@ userName = '';
 password = '';
 errorMessage = '';
 
-constructor(private authService: AuthService, private router: Router) {}
+
+
+
+  constructor(private authService: AuthService, private sessionService: SessionService  ,private router: Router) {}
+
 
   onLogin() {
     this.errorMessage = ''; // limpiar mensaje previo
@@ -38,9 +46,11 @@ constructor(private authService: AuthService, private router: Router) {}
     });
   }
 
-  ngOnInit() {
-    if (this.authService.isLoggedIn()) {
-      this.router.navigate(['/home']);
-    }
+
+ngOnInit() {
+  if (this.authService.isLoggedIn()) {
+    this.sessionService.resetTimer();
+    this.router.navigate(['/home']); 
+
   }
 }
