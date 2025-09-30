@@ -2,28 +2,25 @@ import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from '../services/auth.service';
 import { FormsModule } from '@angular/forms';
-
 import { HttpErrorResponse } from '@angular/common/http';
-
 import { SessionService } from '../services/session.service';
 
-
 @Component({
-selector: 'app-login',
-imports: [FormsModule],
-templateUrl: './login.html',
-styleUrls: ['./login.css']
+  selector: 'app-login',
+  imports: [FormsModule],
+  templateUrl: './login.html',
+  styleUrls: ['./login.css']
 })
 export class Login {
-userName = '';
-password = '';
-errorMessage = '';
+  userName = '';
+  password = '';
+  errorMessage = '';
 
-
-
-
-  constructor(private authService: AuthService, private sessionService: SessionService  ,private router: Router) {}
-
+  constructor(
+    private readonly authService: AuthService,
+    private readonly sessionService: SessionService,
+    private readonly router: Router
+  ) {}
 
   onLogin() {
     this.errorMessage = ''; // limpiar mensaje previo
@@ -46,11 +43,10 @@ errorMessage = '';
     });
   }
 
-ngOnInit() {
-  if (this.authService.isLoggedIn()) {
-    this.sessionService.resetTimer();
-    this.router.navigate(['/home']); 
-
+  ngOnInit() {
+    if (this.authService.isLoggedIn()) {
+      this.sessionService.resetTimer();
+      this.router.navigate(['/home']);
+    }
   }
-}
 }
