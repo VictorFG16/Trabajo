@@ -58,7 +58,7 @@
           </label>
         </div>
         <form class="d-flex" role="search" (ngSubmit)="searchProducts()">
-          <input class="form-control me-2" type="search" placeholder="Buscar por OP, Referencia, Campaña o Marca"
+          <input class="form-control me-2 buscador " type="search" placeholder="Buscar por OP, Referencia, Campaña o Marca"
             aria-label="Search" [(ngModel)]="searchTerm" name="searchTerm" />
           <button class="btn btn-outline-success me-2" type="submit">Buscar</button>
           <button *ngIf="isSearching" class="btn btn-outline-secondary " type="button" (click)="clearSearch()">

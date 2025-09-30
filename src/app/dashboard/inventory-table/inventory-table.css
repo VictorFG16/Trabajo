@@ -32,6 +32,10 @@
     background-color: #1677ff;
     color: #fff;
 }
+.buscador {
+  width: 370px;
+  text-align: center;
+}
 .table-header {
   margin: 20px;
 }
