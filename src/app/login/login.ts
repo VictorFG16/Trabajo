@@ -46,7 +46,6 @@ errorMessage = '';
     });
   }
 
-
 ngOnInit() {
   if (this.authService.isLoggedIn()) {
     this.sessionService.resetTimer();
