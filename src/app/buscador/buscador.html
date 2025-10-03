@@ -14,29 +14,26 @@
     </div>
 
     <!-- Barra de búsqueda -->
-    <div class="search-bar">
-      <input
-        type="text"
-        placeholder="Ingrese exactamente los 7 números de la orden de producción"
-        aria-label="search"
-        [(ngModel)]="searchTerm"
-        (keyup.enter)="searchByOP()"
-        (input)="onSearchInput()"
-        class="form-control buscador"
-        pattern="[0-9]*"
-        inputmode="numeric"
-        oninput="this.value = this.value.replace(/[^0-9]/g, '')"
-      >      
-      <button class="btn btn-outline-success" [class.loading]="isLoading" (click)="searchByOP()" [disabled]="isLoading">
-        <i class="fas fa-search" *ngIf="!isLoading"></i>
-        <i class="fas fa-spinner fa-spin" *ngIf="isLoading"></i>
-        <span>Buscar</span>
-      </button>
-      <button class="btn btn-outline-secondary" (click)="clearSearch()">
-        <i class="fas fa-trash"></i>
-        <span>Limpiar filtro</span>
-      </button>
-    </div>
+<div class="search-bar">
+  <input
+    type="number"
+    placeholder="Ingrese los 7 números de la orden de producción"
+    aria-label="search"
+    [(ngModel)]="searchOp"
+    (keyup.enter)="searchByOP()"
+    class="form-control buscador"
+    min="0"
+  >      
+  <button class="btn btn-outline-success" [class.loading]="isLoading" (click)="searchByOP()" [disabled]="isLoading">
+    <i class="fas fa-search" *ngIf="!isLoading"></i>
+    <i class="fas fa-spinner fa-spin" *ngIf="isLoading"></i>
+    <span>Buscar</span>
+  </button>
+  <button class="btn btn-outline-secondary" (click)="clearSearch()">
+    <i class="fas fa-trash"></i>
+    <span>Limpiar filtro</span>
+  </button>
+</div>
 
 
 
