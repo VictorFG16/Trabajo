@@ -6,17 +6,20 @@ import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { DateUtilsService } from '../../../services/date-utils.service';
 import { ModuleService, Module } from '../../../services/module.service';
+import { NumericOnlyDirective } from '../../../directives/numeric-only.directive';
+
+
 
 @Component({
   selector: 'app-add-product',
-  imports: [FormsModule, Navbar, CommonModule],
+  imports: [FormsModule, Navbar, CommonModule,NumericOnlyDirective],
   templateUrl: './add-product.html',
   styleUrl: './add-product.css'
 })
 export class AddProduct implements OnInit {
   product = {
     description: '',
-    price: 0,
+    price: null as number | null,
     quantity: 0,
     fechaAsignada: '',
     fechaEntrada: '',
@@ -27,7 +30,7 @@ export class AddProduct implements OnInit {
     tipo: '',
     talla: '',
     module: null as Module | null,
-    sam: 0
+    sam: null as number | null
   };
   errorMessage = '';
 
@@ -115,20 +118,25 @@ export class AddProduct implements OnInit {
 
   // Guardar tallas seleccionadas
   saveSizes() {
-    // Combinar tallas de niños y adultos
-    const combinedSizes = [...this.kidsSizes, ...this.adultSizes];
-    // Filtrar solo tallas con cantidad válida (>0)
-    const selectedSizes = combinedSizes.filter(size => size.quantity && size.quantity > 0);
+  // Combinar tallas de niños y adultos
+  const combinedSizes = [...this.kidsSizes, ...this.adultSizes];
+  // Filtrar solo tallas con cantidad válida (>0)
+  const selectedSizes = combinedSizes.filter(size => size.quantity && size.quantity > 0);
 
+  // Si NO hay tallas seleccionadas, limpiar todo
+  if (selectedSizes.length === 0) {
+    this.product.talla = '';
+    this.product.quantity = 0;
+  } else {
     // Calcular el total de cantidades
     this.product.quantity = selectedSizes.reduce((total, size) => total + (size.quantity || 0), 0);
-
     // Guardar tallas como JSON
     this.product.talla = JSON.stringify(selectedSizes);
-
-    // Cerrar modal
-    this.closeSizeModal();
   }
+
+  // Cerrar modal
+  this.closeSizeModal();
+}
 
   onSubmit(form: NgForm) {
     this.errorMessage = '';
@@ -181,7 +189,7 @@ export class AddProduct implements OnInit {
       campaign: this.product.camp,
       type: this.product.tipo,
       sizeQuantities: sizeQuantities,
-      size: '', // opcional
+      size: '', 
       module: this.product.module,
       sam: this.product.sam
     };
@@ -197,6 +205,22 @@ export class AddProduct implements OnInit {
       }
     });
   }
+  // Limpiar todas las tallas
+clearSizes() {
+  this.kidsSizes.forEach(size => size.quantity = null);
+  this.adultSizes.forEach(size => size.quantity = null);
+  this.product.talla = '';
+  this.product.quantity = 0;
+}
+  // Método para verificar si hay tallas seleccionadas
+hasSizesSelected(): boolean {
+  return !!this.product.talla && this.product.talla.length > 0;
+}
+
+// Método para verificar si hay equipo seleccionado
+hasModuleSelected(): boolean {
+  return !!this.product.module;
+}
 
   volverAlInventario() {
     this.router.navigate(['/dashboard']);

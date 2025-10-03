@@ -6,19 +6,20 @@ import { CommonModule } from '@angular/common';
 import { DateUtilsService } from '../../../services/date-utils.service';
 import { ModuleService, Module } from '../../../services/module.service';
 import { Navbar } from '../../navbar/navbar';
+import { NumericOnlyDirective } from '../../../directives/numeric-only.directive';
 
 @Component({
   selector: 'app-edit-product',
   standalone: true, 
-  imports: [FormsModule, CommonModule, Navbar],
+  imports: [FormsModule, CommonModule, Navbar , NumericOnlyDirective],
   templateUrl: './edit-product.html',
-  styleUrls: ['./edit-product.css'] 
+  styleUrls: ['./edit-product.css'] ,
 })
 export class EditProduct implements OnInit {
   product = {
     id: 0,
     description: '',
-    price: 0,
+    price: null as number | null,
     quantity: 0,
     fechaAsignada: '',
     fechaEntrada: '',
@@ -32,8 +33,8 @@ export class EditProduct implements OnInit {
     stoppageReason: '',
     status: '',
     actualDeliveryDate: '',
-    sam: 0,
-    quantityMade: 0
+    sam: null as number | null,
+    quantityMade: null as number | null
   };
   errorMessage = '';
   loading = false;
@@ -261,6 +262,12 @@ export class EditProduct implements OnInit {
       this.errorMessage = 'Las fechas ingresadas no son válidas.';
       return;
     }
+    const fechaAsignadaDate = new Date(this.product.fechaAsignada);
+    const fechaEntradaDate = new Date(this.product.fechaEntrada);
+    if (fechaEntradaDate < fechaAsignadaDate) {
+      this.errorMessage = 'La fecha de entrada no puede ser menor que la fecha asignada.';
+      return;
+    }
 
     const sizeQuantities: { [key: string]: number } = {};
     this.kidsSizes.forEach(size => {
@@ -272,7 +279,7 @@ export class EditProduct implements OnInit {
 
     const productData = {
       id: this.product.id,
-      description: this.product.description === '' ? null : this.product.description,
+      description: this.product.description ,
       price: this.product.price,
       quantity: this.product.quantity,
       assignedDate: this.dateUtils.formatDateForBackend(this.product.fechaAsignada),
@@ -304,7 +311,21 @@ export class EditProduct implements OnInit {
       }
     });
   }
+  // Limpiar todas las tallas
+clearSizes() {
+  this.kidsSizes.forEach(size => size.quantity = null);
+  this.adultSizes.forEach(size => size.quantity = null);
+  this.product.talla = '';
+  this.product.quantity = 0;
+  
+}
+  hasSizesSelected(): boolean {
+  return !!this.product.talla && this.product.talla.length > 0;
+}
 
+ hasModuleSelected(): boolean {
+    return !!this.product.module;
+  }
   volverAlInventario() {
     this.router.navigate(['/dashboard']);
   }
